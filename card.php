@@ -19,7 +19,7 @@
 	$card_3 = mysqli_num_rows($cheque_count); 
 
 	//////////// card 4 /////////////
-	$cheque_amt = mysqli_query($con, "SELECT SUM(cheque_value) as tot_cheque_amt FROM cheque WHERE valid_date >= curdate() AND status = 'NYC'");
+	$cheque_amt = mysqli_query($con, "SELECT SUM(cheque_value) as tot_cheque_amt FROM cheque WHERE valid_date <= curdate() AND status = 'NYC'");
 	$sum = mysqli_fetch_array($cheque_amt); 
 	$card_4 = $sum['tot_cheque_amt']; 
 

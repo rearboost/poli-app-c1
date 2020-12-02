@@ -71,8 +71,8 @@
               data:{"id":id},
               success:function(data){
                 $('#show_view').html(data);
-                // alert(data)
-                $('#get_data1').hide();
+                $('#get_data2').modal('show');
+                //$('#get_data1').hide();
               }
         });
     }

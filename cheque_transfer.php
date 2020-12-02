@@ -84,7 +84,7 @@ mysqli_select_db($con,DB_NAME);
           <li>
             <a href="report">
               <i class="nc-icon nc-single-copy-04"></i>
-              <p>SUMMARY REPORT</p>
+              <p>CUSTOMER HISTORY</p>
             </a>
           </li>
           <li>
@@ -113,7 +113,7 @@ mysqli_select_db($con,DB_NAME);
               </div>
               <div class="col-md-3">
                 <div class="card-header">
-                  <button type="button" class="btn btn-primary add-btn" data-toggle="modal" data-target="#Form1">+ Add Cheque Transfer..
+                  <button type="button" class="btn btn-primary add-btn" data-toggle="modal" data-target="#Form1">+ FILL FORM IN HERE..
                   </button> 
                 </div>
               </div>

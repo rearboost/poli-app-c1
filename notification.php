@@ -86,7 +86,7 @@ mysqli_select_db($con,DB_NAME);
           <li>
             <a href="report">
               <i class="nc-icon nc-single-copy-04"></i>
-              <p>SUMMARY REPORT</p>
+              <p>CUSTOMER HISTORY</p>
             </a>
           </li>
           <li>

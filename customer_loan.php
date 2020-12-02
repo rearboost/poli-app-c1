@@ -84,7 +84,7 @@ mysqli_select_db($con,DB_NAME);
           <li>
             <a href="report">
               <i class="nc-icon nc-single-copy-04"></i>
-              <p>SUMMARY REPORT</p>
+              <p>CUSTOMER HISTORY</p>
             </a>
           </li>
           <li>
@@ -192,7 +192,7 @@ mysqli_select_db($con,DB_NAME);
                       </div>
                     </div>
                   </div>
-                  <div class="row">
+                  <!-- <div class="row">
                     <div class="col-md-10 pr-3">
                     <div class="form-group" id="rates">
                         <label>
@@ -206,7 +206,7 @@ mysqli_select_db($con,DB_NAME);
                         </label>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
                   <div class="row">
                     <div class="col-md-7 pr-3">
                       <div class="form-group">
@@ -444,56 +444,56 @@ mysqli_select_db($con,DB_NAME);
     ///////////////////////////////////////////
 
     //////  radio button onchange catch  ########## Insert 
-    $('#rates').change(function(){
+    // $('#rates').change(function(){
 
-      if (document.getElementById('r1').checked) {
-        rate_value = document.getElementById('r1').value;
-      }
-      else if(document.getElementById('r2').checked) {
-        rate_value = document.getElementById('r2').value;
-      }
-      else if(document.getElementById('r3').checked) {
-        rate_value = document.getElementById('r3').value;
-      }
+    //   if (document.getElementById('r1').checked) {
+    //     rate_value = document.getElementById('r1').value;
+    //   }
+    //   else if(document.getElementById('r2').checked) {
+    //     rate_value = document.getElementById('r2').value;
+    //   }
+    //   else if(document.getElementById('r3').checked) {
+    //     rate_value = document.getElementById('r3').value;
+    //   }
 
-      var amount = $('#amount').val();
-      var int  = $('#int').val();
-      var no  = $('#no').val();
-      var paid_amt;
-      var installement_amt;
-      var interest_amt;
-      var daily_interest;
+    //   var amount = $('#amount').val();
+    //   var int  = $('#int').val();
+    //   var no  = $('#no').val();
+    //   var paid_amt;
+    //   var installement_amt;
+    //   var interest_amt;
+    //   var daily_interest;
 
-      if(rate_value =='daily')
-      { 
-        // paid_amt = amount + (amount*(int/100)*no);
-        // installement_amt = (paid_amt/(no*30);
-        paid_amt = Number(amount) + (Number(amount)*(Number(int)/100))*Number(no);
-        installement_amt = Number(amount)/(Number(no)*30);
-        interest_amt = (Number(amount)*(Number(int)/100))*Number(no)/(Number(no)*30);
+    //   if(rate_value =='daily')
+    //   { 
+    //     // paid_amt = amount + (amount*(int/100)*no);
+    //     // installement_amt = (paid_amt/(no*30);
+    //     paid_amt = Number(amount) + (Number(amount)*(Number(int)/100))*Number(no);
+    //     installement_amt = Number(amount)/(Number(no)*30);
+    //     interest_amt = (Number(amount)*(Number(int)/100))*Number(no)/(Number(no)*30);
 
-      }else if(rate_value =="monthly")
-      {
-        // paid_amt = amount + (amount*(int/100)*no);
-        // installement_amt = (paid_amt/no);
-        paid_amt = Number(amount) + (Number(amount)*(Number(int)/100))*Number(no);
-        installement_amt = Number(amount)/Number(no);
-        interest_amt = ((Number(amount)*(Number(int)/100))*Number(no))/Number(no);
-      }
-      else
-      {       
-        paid_amt = Number(amount) + (Number(amount)*(Number(int)/100))*Number(no);
-        installement_amt = Number(amount)/(Number(no)*30);
-        interest_amt = (Number(amount)*(Number(int)/100))*Number(no)/(Number(no)*30);
-      }
-        daily_interest = (Number(amount)*(Number(int)/100))*Number(no)/(Number(no)*30);
+    //   }else if(rate_value =="monthly")
+    //   {
+    //     // paid_amt = amount + (amount*(int/100)*no);
+    //     // installement_amt = (paid_amt/no);
+    //     paid_amt = Number(amount) + (Number(amount)*(Number(int)/100))*Number(no);
+    //     installement_amt = Number(amount)/Number(no);
+    //     interest_amt = ((Number(amount)*(Number(int)/100))*Number(no))/Number(no);
+    //   }
+    //   else
+    //   {       
+    //     paid_amt = Number(amount) + (Number(amount)*(Number(int)/100))*Number(no);
+    //     installement_amt = Number(amount)/(Number(no)*30);
+    //     interest_amt = (Number(amount)*(Number(int)/100))*Number(no)/(Number(no)*30);
+    //   }
+    //     daily_interest = (Number(amount)*(Number(int)/100))*Number(no)/(Number(no)*30);
       
-      $('#paid_amt').val(paid_amt.toFixed(2));
-      $('#inst_val').val(installement_amt.toFixed(2));
-      $('#int_val').val(interest_amt.toFixed(2));
-      $('#daily_int').val(daily_interest.toFixed(2));
+    //   $('#paid_amt').val(paid_amt.toFixed(2));
+    //   $('#inst_val').val(installement_amt.toFixed(2));
+    //   $('#int_val').val(interest_amt.toFixed(2));
+    //   $('#daily_int').val(daily_interest.toFixed(2));
     
-    }); 
+    // }); 
     ////////////////////  
 
     // Form edit 
@@ -517,16 +517,6 @@ mysqli_select_db($con,DB_NAME);
 
     function customerAmt(){
 
-      if (document.getElementById('r1').checked) {
-        rate_value = document.getElementById('r1').value;
-      }
-      else if(document.getElementById('r2').checked) {
-        rate_value = document.getElementById('r2').value;
-      }
-      else if(document.getElementById('r3').checked) {
-        rate_value = document.getElementById('r3').value;
-      }
-
       var amount = $('#amount').val();
       var int  = $('#int').val();
       var no  = $('#no').val();
@@ -534,29 +524,11 @@ mysqli_select_db($con,DB_NAME);
       var installement_amt;
       var interest_amt;
       var daily_interest;
+      
+        paid_amt = Number(amount) + (Number(amount)*(Number(int)/100))*Number(no);
+        installement_amt = Number(amount)/(Number(no));
+        interest_amt = ((Number(amount)*(Number(int)/100))*Number(no))/Number(no);
 
-      if(rate_value =='daily')
-      { 
-        // paid_amt = amount + (amount*(int/100)*no);
-        // installement_amt = (paid_amt/(no*30);
-        paid_amt = Number(amount) + (Number(amount)*(Number(int)/100))*Number(no);
-        installement_amt = Number(amount)/(Number(no)*30);
-        interest_amt = (Number(amount)*(Number(int)/100))*Number(no)/(Number(no)*30);
-
-      }else if(rate_value =="monthly")
-      {
-        // paid_amt = amount + (amount*(int/100)*no);
-        // installement_amt = (paid_amt/no);
-        paid_amt = Number(amount) + (Number(amount)*(Number(int)/100))*Number(no);
-        installement_amt = Number(amount)/Number(no);
-        interest_amt = (Number(amount)*(Number(int)/100))*Number(no)/Number(no);
-      }
-      else
-      {       
-        paid_amt = Number(amount) + (Number(amount)*(Number(int)/100))*Number(no);
-        installement_amt = Number(amount)/(Number(no)*30);
-        interest_amt = (Number(amount)*(Number(int)/100))*Number(no)/(Number(no)*30);
-      }
         daily_interest = (Number(amount)*(Number(int)/100))*Number(no)/(Number(no)*30);
       
       $('#paid_amt').val(paid_amt.toFixed(2));

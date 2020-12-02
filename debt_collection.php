@@ -83,7 +83,7 @@ mysqli_select_db($con,DB_NAME);
           <li>
             <a href="report">
               <i class="nc-icon nc-single-copy-04"></i>
-              <p>SUMMARY REPORT</p>
+              <p>CUSTOMER HISTORY</p>
             </a>
           </li>
           <li>
@@ -207,6 +207,8 @@ mysqli_select_db($con,DB_NAME);
                   </div>                  
                   <div class="row">
                     <div class="update ml-auto mr-auto">
+                      <a href="#" onclick="billView(<?php echo $row['id']; ?>)" name="bill">Bill
+                      </a>
                       <input type="hidden" name ="submit" value="submit"/>
                       <button type="submit" class="btn btn-primary btn-round">Submit</button>
                       <button type="reset" name="close" class="btn btn-danger btn-round" data-dismiss="modal">Close</button>
@@ -417,25 +419,25 @@ mysqli_select_db($con,DB_NAME);
   ///////////////////////////////////////////
 
   // fetch no.of days when select the date
-  $('#li_date').on('change', function() {
+  // $('#li_date').on('change', function() {
 
-      $.ajax({
-        url: 'remain_amt.php',
-        method:"POST",
-        data:{id:this.value},
-        success: function (response) {
+  //     $.ajax({
+  //       url: 'remain_amt.php',
+  //       method:"POST",
+  //       data:{id:this.value},
+  //       success: function (response) {
 
-          var obj = JSON.parse(response);
-          // $('#remain_amt').val(obj.pre_date);
-          var pre_date  =  obj.pre_date
-          var now_date  =  $('#li_date').val();
+  //         var obj = JSON.parse(response);
+  //         // $('#remain_amt').val(obj.pre_date);
+  //         var pre_date  =  obj.pre_date
+  //         var now_date  =  $('#li_date').val();
 
-          var days = ;
+  //         var days = ;
 
-          $('#days').val(days);
-        }
-      });
-    }); 
+  //         $('#days').val(days);
+  //       }
+  //     });
+  //   }); 
 
   // calculate new remain amount when fill the installement value and interest value
     // $('#int_amount').change(function(){
@@ -481,6 +483,23 @@ mysqli_select_db($con,DB_NAME);
 
       });
     }
+
+    ////////////////////  
+
+    // Bill
+    function billView(id){
+
+      $.ajax({
+              url:"bill.php",
+              method:"POST",
+              data:{"id":id},
+              success:function(data){
+                $('#show_view').html(data);
+                $('#bill').modal('show');
+              }
+        });
+    }
+    //////////////////// 
 
     ////////////////////  
 
