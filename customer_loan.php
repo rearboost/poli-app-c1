@@ -188,7 +188,7 @@ mysqli_select_db($con,DB_NAME);
                     <div class="col-md-7 pr-3">
                     <div class="form-group">
                         <label>No. of Installments</label>
-                        <input type="number" class="form-control customerAmt" id="no" name = "ino_inst" required>
+                        <input type="text" class="form-control customerAmt" id="no" name = "ino_inst" required>
                       </div>
                     </div>
                   </div>
@@ -332,7 +332,6 @@ mysqli_select_db($con,DB_NAME);
                       <th class="text-right"> Loan</th>
                       <th class="text-right"> Interest(%)</th>
                       <th class="text-right"> No.installments</th>
-                      <th>                    Method</th>
                       <th class="text-right"> paid amt</th>
                       <th class="text-right"> Installment value</th>                     
                       <th>                    cust.ID</th>
@@ -354,7 +353,6 @@ mysqli_select_db($con,DB_NAME);
                             <td class="text-right">   <?php echo $row['amount'] ?>             </td>
                             <td class="text-right">   <?php echo $row['interest'] ?>           </td>
                             <td class="text-right">   <?php echo $row['no_of_installments'] ?> </td>
-                            <td>                      <?php echo $row['l_method'] ?>           </td>
                             <td class="text-right">   <?php echo $row['total_amt'] ?>          </td>
                             <td class="text-right">   <?php echo $row['installment_value']?>   </td>
                             <td>                      <?php echo $row['cust_id'] ?>            </td>
