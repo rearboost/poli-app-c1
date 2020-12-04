@@ -419,25 +419,29 @@ mysqli_select_db($con,DB_NAME);
   ///////////////////////////////////////////
 
   // fetch no.of days when select the date
-  // $('#li_date').on('change', function() {
+  $('#li_date').on('change', function() {
 
-  //     $.ajax({
-  //       url: 'remain_amt.php',
-  //       method:"POST",
-  //       data:{id:this.value},
-  //       success: function (response) {
+      var customer_id = $('#custom_id').val();
 
-  //         var obj = JSON.parse(response);
-  //         // $('#remain_amt').val(obj.pre_date);
-  //         var pre_date  =  obj.pre_date
-  //         var now_date  =  $('#li_date').val();
+      $.ajax({
+        url: 'remain_amt.php',
+        method:"POST",
+        data:{id:customer_id},
+        success: function (response) {
+          var obj = JSON.parse(response);
+          var pre_date  =  obj.pre_date
+          var now_date  =  $('#li_date').val();
 
-  //         var days = ;
+          const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+          const firstDate = new Date(pre_date);
+          const secondDate = new Date(now_date);
 
-  //         $('#days').val(days);
-  //       }
-  //     });
-  //   }); 
+          const diffDays = Math.round(Math.abs((firstDate - secondDate) / oneDay));
+
+          $('#days').val(diffDays);
+        }
+      });
+    }); 
 
   // calculate new remain amount when fill the installement value and interest value
     // $('#int_amount').change(function(){
