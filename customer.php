@@ -169,7 +169,7 @@ mysqli_select_db($con,DB_NAME);
                           <div class="update ml-auto mr-auto">
                             <input type="hidden" name ="submit" value="submit"/>
                             <button type="submit" class="btn btn-primary btn-round">Register</button>
-                            <button type="reset" name="close" class="btn btn-danger btn-round" data-dismiss="modal">Close</button>
+                            <Input type="button" onclick="form_reset()" class="btn btn-danger btn-round" data-dismiss="modal" value="Close">
 
                             <?php
                                 if(isset($_POST['submit'])){
@@ -316,6 +316,11 @@ mysqli_select_db($con,DB_NAME);
         });
     }
     ////////////////////  
+
+    ///////// Form values reset /////////
+    function form_reset(){
+      document.getElementById("customerAdd").reset();
+    }
 
     ////////////////////  
 

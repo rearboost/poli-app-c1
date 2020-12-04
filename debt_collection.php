@@ -159,13 +159,16 @@ mysqli_select_db($con,DB_NAME);
                     <div class="col-md-6 pr-3">
                       <div class="form-group">
                         <label>Date</label>
-                        <input type="date" class="form-control" id="li_date" name = "li_date" required>
+                        <input type="date" class="form-control available" id="li_date" name = "li_date" required disabled="">
                       </div>
                     </div>
+
+                    <div id = "show"></div>
+
                     <div class="col-md-2">
                       <div class="form-group">
                         <label>Days</label>
-                        <input type="text" class="form-control" placeholder="" id="days" name = "day" required>
+                        <input type="text" class="form-control" placeholder="" id="days" name = "day" required disabled>
                       </div>
                     </div>
                   </div>
@@ -173,10 +176,11 @@ mysqli_select_db($con,DB_NAME);
                     <div class="col-md-6 pr-3">
                       <div class="form-group">
                         <label>Amount</label>
-                        <input type="text" class="form-control checkAmt" placeholder="LKR" id="amt" name = "amt" required>
+                        <input type="text" class="form-control checkAmt" placeholder="LKR" id="amt" name = "amt" required disabled="">
                       </div>
                     </div>
                   </div>
+
                   <div class="row">
                     <div class="col-md-6 pr-3">
                       <div class="form-group">
@@ -207,11 +211,11 @@ mysqli_select_db($con,DB_NAME);
                   </div>                  
                   <div class="row">
                     <div class="update ml-auto mr-auto">
-                      <a href="#" onclick="billView(<?php echo $row['id']; ?>)" name="bill">Bill
-                      </a>
+                      <!-- <a href="#" onclick="billView(<?php // echo $row['id']; ?>)" name="bill">Bill
+                      </a> -->
                       <input type="hidden" name ="submit" value="submit"/>
                       <button type="submit" class="btn btn-primary btn-round">Submit</button>
-                      <button type="reset" name="close" class="btn btn-danger btn-round" data-dismiss="modal">Close</button>
+                      <Input type="button" onclick="form_reset()" class="btn btn-danger btn-round" data-dismiss="modal" value="Close">
 
                       <?php
                           if(isset($_POST['submit'])){
@@ -412,6 +416,18 @@ mysqli_select_db($con,DB_NAME);
           var obj = JSON.parse(response);
           $('#remain_amt').val(obj.remain_amt);
           $('#loan_amt').val(obj.loan_amt);
+          var pre_date  =  obj.pre_date
+          var now_date  =  $('#li_date').val();
+
+          const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+          const firstDate = new Date(pre_date);
+          const secondDate = new Date(now_date);
+
+          const diffDays = Math.round(Math.abs((firstDate - secondDate) / oneDay));
+
+          $('#days').val(diffDays);
+
+          $('#li_date').prop('disabled', false);
         }
       });
   }); 
@@ -439,6 +455,7 @@ mysqli_select_db($con,DB_NAME);
           const diffDays = Math.round(Math.abs((firstDate - secondDate) / oneDay));
 
           $('#days').val(diffDays);
+          $('#amt').prop('disabled', false);
         }
       });
     }); 
@@ -448,6 +465,13 @@ mysqli_select_db($con,DB_NAME);
 
      
     // }); 
+
+    ///////// Form values reset /////////
+    function form_reset(){
+      document.getElementById("collectionDebt").reset();
+    }
+
+    //////////////////// 
 
 
     $('.checkAmt').on('keyup',function(){
@@ -491,18 +515,18 @@ mysqli_select_db($con,DB_NAME);
     ////////////////////  
 
     // Bill
-    function billView(id){
+    // function billView(id){
 
-      $.ajax({
-              url:"bill.php",
-              method:"POST",
-              data:{"id":id},
-              success:function(data){
-                $('#show_view').html(data);
-                $('#bill').modal('show');
-              }
-        });
-    }
+    //   $.ajax({
+    //           url:"bill.php",
+    //           method:"POST",
+    //           data:{"id":id},
+    //           success:function(data){
+    //             $('#show_view').html(data);
+    //             $('#bill').modal('show');
+    //           }
+    //     });
+    // }
     //////////////////// 
 
     ////////////////////  

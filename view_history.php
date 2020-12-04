@@ -14,7 +14,7 @@
           <h5 class="modal-title" id="staticBackdropLabel">CUSTOMER HISTORY</h5>
         </div> 
 
-      <table class="table" id="">
+      <table class="table" id="" >
         <thead class="text-primary">
           <th>                    DATE             </th>
           <th class="text-right"> INSTALLEMENT AMT </th>

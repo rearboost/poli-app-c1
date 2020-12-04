@@ -138,9 +138,7 @@ mysqli_select_db($con,DB_NAME);
                             //// need to fetch customer who not a debtor [only drop customers who have l_status - 1]
                                 $custom = "SELECT C.cust_id AS cust_id, C.name AS name
                                           FROM customer C 
-                                          LEFT JOIN  loan L
-                                          ON C.cust_id = L.cust_id
-                                          WHERE L.l_status = 0";
+                                          ";
 
                                 $result1 = mysqli_query($con,$custom);
                                 $numRows1 = mysqli_num_rows($result1); 
@@ -154,7 +152,7 @@ mysqli_select_db($con,DB_NAME);
                             ?>
                             
                           </select>
-                          <div id="show">
+                          <div id="show" class="loan-validtion">
                             
                           </div>
                       </div>
@@ -237,7 +235,7 @@ mysqli_select_db($con,DB_NAME);
                     <div class="update ml-auto mr-auto">
                       <input type="hidden" name ="submit" value="submit"/>
                       <button type="submit" class="btn btn-primary btn-round">Submit</button>
-                      <button type="reset" name="close" class="btn btn-danger btn-round" data-dismiss="modal">Close</button>
+                      <Input type="button" onclick="form_reset()" class="btn btn-danger btn-round" data-dismiss="modal" value="Close">
 
                       <?php
                           if(isset($_POST['submit'])){
@@ -415,19 +413,30 @@ mysqli_select_db($con,DB_NAME);
 <script>
     /////////////////CHECK IF THE CUSTOMER LOAN EXIST//////////////////////////
 
-    // $('#customer_loan').on('change', function() {
+    $('#customer_loan').on('change', function() {
 
-    //   $.ajax({
-    //     url: 'cust_loan_verify.php',
-    //     method:"POST",
-    //     data:{cust_id:this.value},
-    //     success: function (response) {//response is value returned from php 
-    //       //alert(data)
-    //       $('#show').html(data);
-    //   });
-    // });  
+      $.ajax({
+        url: 'cust_loan_verify.php',
+        method:"POST",
+        data:{cust_id:this.value},
+        success: function (response) {//response is value returned from php 
+          //alert(data)
+          //$('#show').html(response);
+          $("#show").removeAttr('class');
+          if(response==1){
+             $('#show').html("");
+             $("#show").css({"color": "green"});
+          }else{
+             $('#show').html("Already You have a loan");
+             $("#show").css({"color": "red"});
+             setTimeout(function(){ $("#customer_loan").val("");  $('#show').html("") }, 1500);
+          }
+          $("#show").css({"padding": "5px" , "font-size":"small"});
+        }
+      });
+    });  
 
-  ////////////////////  
+  ////////////////////   
 
   /////////////////////////////////////// Table Search 
     $(document).ready(function(){
@@ -493,6 +502,13 @@ mysqli_select_db($con,DB_NAME);
     
     // }); 
     ////////////////////  
+
+    ///////// Form values reset /////////
+    function form_reset(){
+      document.getElementById("loanAdd").reset();
+    }
+
+    //////////////////// 
 
     // Form edit 
     function editView(id){

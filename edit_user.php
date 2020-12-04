@@ -29,9 +29,9 @@
 
     if(isset($_POST['update_pw'])){
         
-        $old_pw     = $_POST['old_pw'];
+        $old_pw     = md5($_POST['old_pw']);
         $new_pw     = md5( $_POST['new_pw']);
-        $confirm_pw = $_POST['confirm_pw'];
+        $confirm_pw = md5($_POST['confirm_pw']);
 
         $get_pw = mysqli_query($con,"SELECT * FROM user WHERE password = '$old_pw'");
         if(mysqli_num_rows($get_pw) == 0){
