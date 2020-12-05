@@ -133,7 +133,6 @@ mysqli_select_db($con,DB_NAME);
                           <select class="form-control form-selectBox" id="custom_id" name = "id" required>
                             <option value="default">--Select Customer--</option>
                             <?php
-                              //$custom = "SELECT cust_id, name FROM customer ";
 
                               $custom = "SELECT C.cust_id AS cust_id  , C.name AS name
                                           FROM customer C 
@@ -162,8 +161,6 @@ mysqli_select_db($con,DB_NAME);
                         <input type="date" class="form-control available" id="li_date" name = "li_date" required disabled="">
                       </div>
                     </div>
-
-                    <div id = "show"></div>
 
                     <div class="col-md-2">
                       <div class="form-group">
