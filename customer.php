@@ -34,8 +34,6 @@ mysqli_select_db($con,DB_NAME);
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="assets/demo/demo.css" rel="stylesheet" />
 
-    <link href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" rel="stylesheet" />
-
 </head>
 
 <body class="">
@@ -267,10 +265,6 @@ mysqli_select_db($con,DB_NAME);
   <!-- sweetalert message -->
   <script src="assets/js/sweetalert.min.js"></script>
 
-   <!-- DataTbale Link -->
-  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-  <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-
   <script>
 
     /////////////////////////////////////// Table Search 
@@ -305,13 +299,15 @@ mysqli_select_db($con,DB_NAME);
     // Form edit 
     function editView(id){
 
+      alert(id)
+
       $.ajax({
               url:"edit_customer.php",
               method:"POST",
               data:{"id":id},
               success:function(data){
                 $('#show_view').html(data);
-                $('#Form3').modal('show');
+                $('#Form3').modal('toggle');
               }
         });
     }
