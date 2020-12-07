@@ -323,6 +323,7 @@ mysqli_select_db($con,DB_NAME);
                       <th class="text-right"> Loan no 			    </th>
                       <th class="text-center">Edit 				      </th>
                       <th class="text-center">Delete 			      </th>
+                      <th class="text-center">Print 			      </th>
                     </thead>
                     <tbody>
                       <?php
@@ -350,6 +351,10 @@ mysqli_select_db($con,DB_NAME);
                           	<td class="text-center">  
                             	<a href="#" onclick="confirmation('event','<?php echo $row['id']; ?>')" name="delete">
                             	<i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                          	</td>
+                            <td class="text-center">  
+                            	<a href="#" onclick="printView(<?php echo $row['id']; ?>)" name="print">
+                              <i class="fa fa-print" aria-hidden="true"></i></a>
                           	</td>
                            </tr>
                            </tbody>
@@ -530,18 +535,10 @@ mysqli_select_db($con,DB_NAME);
     ////////////////////  
 
     // Bill
-    // function billView(id){
-
-    //   $.ajax({
-    //           url:"bill.php",
-    //           method:"POST",
-    //           data:{"id":id},
-    //           success:function(data){
-    //             $('#show_view').html(data);
-    //             $('#bill').modal('show');
-    //           }
-    //     });
-    // }
+    function printView(id){
+      alert(id)
+      window.open('debt_collection_print?id='+id, '_blank');
+    }
     //////////////////// 
 
     ////////////////////  
