@@ -155,6 +155,13 @@ mysqli_select_db($con,DB_NAME);
                     </div>
                     <div class="col-md-6 pr-3">
                       <div class="form-group">
+                        <?php
+
+                          $print = mysqli_query($con,"SELECT * FROM loan_installement ORDER BY id DESC LIMIT 1");
+                          $row_print = mysqli_fetch_assoc($print);
+
+                        ?>
+                        <input type="hidden" id="nextId" value ='<?php echo $row_print['id']+1; ?>'>
                         <label>Loan Amount</label>
                         <input type="text" class="form-control" id="loan_amt" name = "l_amt" disabled = "" id = "loan_amount" readonly required>
                       </div>
@@ -215,12 +222,13 @@ mysqli_select_db($con,DB_NAME);
                   </div>                  
                   <div class="row">
                     <div class="update ml-auto mr-auto">
-                      <input type="hidden" name ="submit" value="submit" onclick="billView(<?php echo $row_print['id']; ?>)"/>
+                      <input type="hidden" name ="submit" value="submit"/>
                       <button type="submit" class="btn btn-primary btn-round" >Submit</button>
                       <Input type="button" onclick="form_reset()" class="btn btn-danger btn-round" data-dismiss="modal" value="Close">
 
                       <?php
                           if(isset($_POST['submit'])){
+
                             $custom_id      = $_POST['id'];
                             $li_date        = $_POST['li_date'];
                             $i_amt          = $_POST['i_amt'];
@@ -297,9 +305,6 @@ mysqli_select_db($con,DB_NAME);
                           if($remain_amt <= 0){
                             $update_status = mysqli_query($con,"UPDATE loan SET l_status =0 WHERE loan_no=$loan_no");
                           }
-
-                          $print = mysqli_query($con,"SELECT * FROM loan_installement ORDER BY id DESC LIMIT 1");
-                          $row_print = mysqli_fetch_assoc($print);
 
                           }
 
@@ -557,45 +562,32 @@ mysqli_select_db($con,DB_NAME);
         });
     }
     //////////////////// 
+     $(function () {
 
-     $(function billView(id) {
+          $('#collectionDebt').on('submit', function (e) {
 
-        $('#collectionDebt').on('submit', function (e) {
+            e.preventDefault();
 
-          e.preventDefault();
+            var nextId = $('#nextId').val();
+            
+            $.ajax({
+              type: 'post',
+              url: 'debt_collection.php',
+              data: $('#collectionDebt').serialize(),
+              success: function () {
+                swal({
+                  title: "Good job !",
+                  text: "Successfully Submited",
+                  icon: "success",
+                  button: "Ok !",
+                  });
+                  setTimeout(function(){window.open('debt_collection_print?id='+nextId, '_blank'); }, 2500);
+              }
+            });
 
-          $.ajax({
-            type: 'post',
-            url: 'debt_collection.php',
-            data: $('#collectionDebt').serialize(),
-            success: function () {
-              alert(id)
-              swal({
-                title: "Good job !",
-                text: "Successfully Submited",
-                icon: "success",
-                button: "Ok !",
-                });
-                // setTimeout(function(){ location.reload(); }, 2500);
-                
-            }
           });
-          
-          $.ajax({
-            url:"debt_collection_print",
-            method:"GET",
-            data:{"id":id},
-            success:function(data){
-                window.open('debt_collection_print?id='+id, '_blank');
-
-            }
-          });
-    
-
-        });
-          
       });
-      
+  
     ////////////////////  
 
     // Form delete 
