@@ -40,12 +40,6 @@ mysqli_select_db($con,DB_NAME);
 
   <?php
 
-include("db_config.php");
-  $con = mysqli_connect(DB_HOSTNAME,DB_USERNAME,DB_PASSWORD,DB_NAME);
-    if (!$con) {
-      die('Could not connect: ' . mysqli_error($con));
-    }
-
     $id = $_GET['id']; // get id through query string
 
     $qry = mysqli_query($con,"SELECT * FROM loan,loan_installement WHERE loan.loan_no = loan_installement.loan_no AND id=$id "); // select query
@@ -69,32 +63,73 @@ include("db_config.php");
               </div>
             </div>
 
-            <div class="row">
-              <div class="col-md-6 pr-3">
+            <div class="col-md-12 pr-1">
+            <div class="row"> 
+              <div class="col-md-6 pr-1">
                 <div class="form-group">
-                  <label><b>Installment amount</b></label> : <?php echo $data['installement_amt'] ?>
+                  <label><b>Loan Amount</b></label> : 
                 </div>
-              </div>              
-              <div class="col-md-6 pr-3">
+              </div>
+              <div class="col-md-6 pr-1">
                 <div class="form-group">
-                  <label><b>Interest amount</b></label> : <?php echo $data['interest_amt'] ?>
+                   <?php echo $data['amount'] ?>
+                </div>
+              </div>
+            </div> 
+
+            <div class="row">
+              <div class="col-md-6 pr-1">
+                <div class="form-group">
+                  <label><b>Installment amt</b></label> : 
+                </div>
+              </div>
+              <div class="col-md-6 pr-1">
+                <div class="form-group">
+                  <?php echo $data['installement_amt'] ?>
+                </div>
+              </div>
+            </div>
+            
+            <div class="row">                  
+              <div class="col-md-6 pr-1">
+                <div class="form-group">
+                  <label><b>Interest amount</b></label> : 
+                </div>
+              </div>
+              <div class="col-md-6 pr-1">
+                <div class="form-group">
+                  <?php echo $data['interest_amt'] ?>
                 </div>
               </div>
             </div>
             
             <div class="row">
-              <div class="col-md-6 pr-3">
+              <div class="col-md-6 pr-1">
                 <div class="form-group">
-                  <label><b>Remaining amount</b></label> : <?php echo $data['remaining_amt'] ?>
+                  <label><b>Remain Interest</b></label> : 
                 </div>
               </div>
-              <div class="col-md-6 pr-3">
+              <div class="col-md-6 pr-1">
                 <div class="form-group">
-                  <label><b>Loan Amount</b></label> : <?php echo $data['amount'] ?>
+                  <?php echo $data['remaining_int_amt'] ?>
                 </div>
               </div>
-            </div>                  
+            </div>
+            
+            <div class="row">
+              <div class="col-md-6 pr-1">
+                <div class="form-group">
+                  <label><b>Remaining amt</b></label> : 
+                </div>
+              </div>
+              <div class="col-md-6 pr-1">
+                <div class="form-group">
+                  <?php echo $data['remaining_amt'] ?>
+                </div>
+              </div>
+            </div>
 
+            </div>
           </div>
          </form> 
        </div>

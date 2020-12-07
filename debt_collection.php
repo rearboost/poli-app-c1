@@ -215,10 +215,8 @@ mysqli_select_db($con,DB_NAME);
                   </div>                  
                   <div class="row">
                     <div class="update ml-auto mr-auto">
-                      <!-- <a href="#" onclick="billView(<?php // echo $row['id']; ?>)" name="bill">Bill
-                      </a> -->
-                      <input type="hidden" name ="submit" value="submit"/>
-                      <button type="submit" class="btn btn-primary btn-round">Submit</button>
+                      <input type="hidden" name ="submit" value="submit" onclick="billView(<?php echo $row_print['id']; ?>)"/>
+                      <button type="submit" class="btn btn-primary btn-round" >Submit</button>
                       <Input type="button" onclick="form_reset()" class="btn btn-danger btn-round" data-dismiss="modal" value="Close">
 
                       <?php
@@ -299,7 +297,10 @@ mysqli_select_db($con,DB_NAME);
                           if($remain_amt <= 0){
                             $update_status = mysqli_query($con,"UPDATE loan SET l_status =0 WHERE loan_no=$loan_no");
                           }
-                          
+
+                          $print = mysqli_query($con,"SELECT * FROM loan_installement ORDER BY id DESC LIMIT 1");
+                          $row_print = mysqli_fetch_assoc($print);
+
                           }
 
                       ?>
@@ -319,9 +320,10 @@ mysqli_select_db($con,DB_NAME);
                       <th>                    Installement Date </th>
                       <th class="text-right"> Installement amt 	</th>
                       <th class="text-right"> Interest amt 		  </th>
-                      <th class="text-right"> Remaining amt 	  </th>
-                      <th class="text-right"> Loan no 			    </th>
-                      <th class="text-center">Edit 				      </th>
+                      <th class="text-right"> Remaining interest</th>
+                      <th class="text-right"> Remaining amt     </th>
+                      <th class="text-right"> Loan no 			    </th><!-- 
+                      <th class="text-center">Edit 				      </th> -->
                       <th class="text-center">Delete 			      </th>
                       <th class="text-center">Print 			      </th>
                     </thead>
@@ -339,15 +341,15 @@ mysqli_select_db($con,DB_NAME);
                             <tr>
                             <td>                      <?php echo $row['id']  ?>              </td>
                             <td>                      <?php echo $row['li_date']  ?>         </td>
-                            <td class="text-right">   <?php echo $row['installement_amt']  ?></td>
+                            <td class="text-right">   <?php echo $row['installement_amt']?>  </td>
                             <td class="text-right">   <?php echo $row['interest_amt'] ?>     </td>
+                            <td class="text-right">   <?php echo $row['remaining_int_amt']?> </td>
                             <td class="text-right">   <?php echo $row['remaining_amt'] ?>    </td>
                             <td class="text-right">   <?php echo $row['loan_no']  ?>         </td>
-                            <td class="text-center">  
-                            	<!-- <a href="edit_debt.php?id=<?php //echo $row['id']; ?>" name="edit"> -->
-                              <a href="#" onclick="editView(<?php echo $row['id']; ?>)" name="edit">
+                            <!--td class="text-center">  
+                              <a href="#" onclick="editView(<?php //echo $row['id']; ?>)" name="edit">
                                  <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                          	</td>
+                          	</td-->
                           	<td class="text-center">  
                             	<a href="#" onclick="confirmation('event','<?php echo $row['id']; ?>')" name="delete">
                             	<i class="fa fa-trash-o" aria-hidden="true"></i></a>
@@ -536,11 +538,9 @@ mysqli_select_db($con,DB_NAME);
 
     // Bill
     function printView(id){
-      alert(id)
       window.open('debt_collection_print?id='+id, '_blank');
     }
-    //////////////////// 
-
+    /////////////////////
     ////////////////////  
 
     // Form edit 
@@ -558,7 +558,7 @@ mysqli_select_db($con,DB_NAME);
     }
     //////////////////// 
 
-     $(function () {
+     $(function billView(id) {
 
         $('#collectionDebt').on('submit', function (e) {
 
@@ -569,18 +569,31 @@ mysqli_select_db($con,DB_NAME);
             url: 'debt_collection.php',
             data: $('#collectionDebt').serialize(),
             success: function () {
+              alert(id)
               swal({
                 title: "Good job !",
                 text: "Successfully Submited",
                 icon: "success",
                 button: "Ok !",
                 });
-                setTimeout(function(){ location.reload(); }, 2500);
-               }
+                // setTimeout(function(){ location.reload(); }, 2500);
+                
+            }
           });
+          
+          $.ajax({
+            url:"debt_collection_print",
+            method:"GET",
+            data:{"id":id},
+            success:function(data){
+                window.open('debt_collection_print?id='+id, '_blank');
+
+            }
+          });
+    
 
         });
-
+          
       });
       
     ////////////////////  
