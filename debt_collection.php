@@ -536,7 +536,6 @@ mysqli_select_db($con,DB_NAME);
 
     // Bill
     function printView(id){
-      alert(id)
       window.open('debt_collection_print?id='+id, '_blank');
     }
     //////////////////// 
