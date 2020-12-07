@@ -153,6 +153,12 @@ mysqli_select_db($con,DB_NAME);
                           </select>
                       </div>
                     </div>
+                    <div class="col-md-6 pr-3">
+                      <div class="form-group">
+                        <label>Loan Amount</label>
+                        <input type="text" class="form-control" id="loan_amt" name = "l_amt" disabled = "" id = "loan_amount" readonly required>
+                      </div>
+                    </div>
                   </div>
                   <div class="row">
                     <div class="col-md-6 pr-3">
@@ -192,17 +198,18 @@ mysqli_select_db($con,DB_NAME);
                       </div>
                     </div>
                   </div>
+                  
                   <div class="row">
                     <div class="col-md-6 pr-3">
                       <div class="form-group">
-                        <label>Remaining amount</label>
-                        <input type="text" class="form-control" id="remain_amt" name = "remain_amt" value="" readonly required>
+                        <label>Remaining Interest Amount</label>
+                        <input type="text" class="form-control" id="r_int" name = "r_int" readonly required>
                       </div>
                     </div>
                     <div class="col-md-6 pr-3">
                       <div class="form-group">
-                        <label>Loan Amount</label>
-                        <input type="text" class="form-control" id="loan_amt" name = "l_amt" disabled = "" id = "loan_amount" readonly required>
+                        <label>Remaining amount</label>
+                        <input type="text" class="form-control" id="remain_amt" name = "remain_amt" value="" readonly required>
                       </div>
                     </div>
                   </div>                  
@@ -216,11 +223,12 @@ mysqli_select_db($con,DB_NAME);
 
                       <?php
                           if(isset($_POST['submit'])){
-                            $custom_id = $_POST['id'];
-                            $li_date = $_POST['li_date'];
-                            $i_amt = $_POST['i_amt'];
-                            $int_amt = $_POST['int_amt'];
-                            $remain_amt= $_POST['remain_amt'];
+                            $custom_id      = $_POST['id'];
+                            $li_date        = $_POST['li_date'];
+                            $i_amt          = $_POST['i_amt'];
+                            $int_amt        = $_POST['int_amt'];
+                            $remain_int_amt = $_POST['r_int'];
+                            $remain_amt     = $_POST['remain_amt'];
 
                             $year =  date("Y");
                             $month = date("m");
@@ -285,7 +293,7 @@ mysqli_select_db($con,DB_NAME);
                           		$loan_no = $row_l['loan_no'];
                           		$loan_amount = $row_l['amount'];
 
-                          $insert = "INSERT INTO loan_installement (li_date,installement_amt,interest_amt,remaining_amt,loan_no) VALUES ('$li_date',$i_amt,$int_amt,$remain_amt,$loan_no)";
+                          $insert = "INSERT INTO loan_installement (li_date,installement_amt,interest_amt,remaining_int_amt,remaining_amt,loan_no) VALUES ('$li_date',$i_amt,$int_amt,$remain_int_amt,$remain_amt,$loan_no)";
                           mysqli_query($con,$insert);
 
                           if($remain_amt <= 0){
@@ -483,6 +491,7 @@ mysqli_select_db($con,DB_NAME);
       var days   = $('#days').val();
       var installement_amt;
       var interest_amt;
+      var remain_int;
       var remain_amt;
       var id =  $('#custom_id').val();
 
@@ -495,14 +504,23 @@ mysqli_select_db($con,DB_NAME);
           var obj = JSON.parse(response);
          // $('#remain_amt').val(obj.remain_amt);
           var remain_amt      =  obj.remain_amt
+          var remain_int      =  obj.remain_int
           var daily_interest  =  obj.interest
 
-          interest_amt = Number(daily_interest) * Number(days);
-          installement_amt = Number(amount) - Number(interest_amt);
-          remain_amt = Number(remain_amt) - (Number(installement_amt)+Number(interest_amt));  
+          interest_amt = Number(remain_int) + (Number(daily_interest) * Number(days));
+          
+          if(amount>=interest_amt){
+            installement_amt = Number(amount) - Number(interest_amt);
+            remain_int = Number(0.00);
+          }else{
+            installement_amt = Number(0.00);
+            remain_int =  Number(interest_amt) - Number(amount);
+          }
+          remain_amt = Number(remain_amt) - Number(amount);  
       
            $('#int_amount').val(interest_amt.toFixed(2));
            $('#inst_amt').val(installement_amt.toFixed(2));
+           $('#r_int').val(remain_int.toFixed(2));
            $('#remain_amt').val(remain_amt.toFixed(2));
         }
 
