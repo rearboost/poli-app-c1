@@ -161,7 +161,7 @@ mysqli_select_db($con,DB_NAME);
                           $row_print = mysqli_fetch_assoc($print);
 
                         ?>
-                        <input type="hidden" id="nextId" value ='<?php echo $row_print['id']+1; ?>'>
+                        <input type="hidden" id="nextId" name="nextId" value ='<?php echo $row_print['id']+1; ?>'>
                         <label>Loan Amount</label>
                         <input type="text" class="form-control" id="loan_amt" name = "l_amt" disabled = "" id = "loan_amount" readonly required>
                       </div>
@@ -230,6 +230,7 @@ mysqli_select_db($con,DB_NAME);
                           if(isset($_POST['submit'])){
 
                             $custom_id      = $_POST['id'];
+                            $li_id          = $_POST['nextId'];
                             $li_date        = $_POST['li_date'];
                             $i_amt          = $_POST['i_amt'];
                             $int_amt        = $_POST['int_amt'];
@@ -299,7 +300,7 @@ mysqli_select_db($con,DB_NAME);
                           		$loan_no = $row_l['loan_no'];
                           		$loan_amount = $row_l['amount'];
 
-                          $insert = "INSERT INTO loan_installement (li_date,installement_amt,interest_amt,remaining_int_amt,remaining_amt,loan_no) VALUES ('$li_date',$i_amt,$int_amt,$remain_int_amt,$remain_amt,$loan_no)";
+                          $insert = "INSERT INTO loan_installement (id,li_date,installement_amt,interest_amt,remaining_int_amt,remaining_amt,loan_no) VALUES ($li_id,'$li_date',$i_amt,$int_amt,$remain_int_amt,$remain_amt,$loan_no)";
                           mysqli_query($con,$insert);
 
                           if($remain_amt <= 0){
@@ -582,6 +583,7 @@ mysqli_select_db($con,DB_NAME);
                   button: "Ok !",
                   });
                   setTimeout(function(){window.open('debt_collection_print?id='+nextId, '_blank'); }, 2500);
+                  setTimeout(function(){ location.reload(); }, 2500);
               }
             });
 

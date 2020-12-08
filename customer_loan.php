@@ -190,21 +190,6 @@ mysqli_select_db($con,DB_NAME);
                       </div>
                     </div>
                   </div>
-                  <!-- <div class="row">
-                    <div class="col-md-10 pr-3">
-                    <div class="form-group" id="rates">
-                        <label>
-                          <input type="radio" id="r1" name="l_method" value="daily"> Daily
-                        </label><br>
-                        <label>
-                          <input type="radio" id="r2" name="l_method" value="monthly"> Monthly
-                        </label><br>
-                        <label>
-                          <input type="radio" id="r3" name="l_method" value="speed draft"> Speed draft
-                        </label>
-                      </div>
-                    </div>
-                  </div> -->
                   <div class="row">
                     <div class="col-md-7 pr-3">
                       <div class="form-group">
@@ -216,21 +201,13 @@ mysqli_select_db($con,DB_NAME);
                   <div class="row">
                     <div class="col-md-7 pr-3">
                       <div class="form-group">
-                        <label>Value of installement</label>
+                        <label>Value of installement (Monthly)</label>
                         <input type="text" class="form-control" placeholder="LKR" id="inst_val" name = "i_amt" required>
                       </div>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-md-7 pr-3">
-                      <div class="form-group">
-                        <label>Value of interest</label>
-                        <input type="text" class="form-control" placeholder="LKR" id="int_val" name = "int_amt" required>
-                        <input type="hidden" class="form-control" id="daily_int" name = "daily_int" required>
-                      </div>
-                    </div>
-                  </div>
-
+                  <input type="hidden" class="form-control" id="daily_int" name = "daily_int" required>
+            
                   <div class="row">
                     <div class="update ml-auto mr-auto">
                       <input type="hidden" name ="submit" value="submit"/>
@@ -244,7 +221,6 @@ mysqli_select_db($con,DB_NAME);
                             $l_amt    = $_POST['l_amt'];
                             $interest = $_POST['interest'];
                             $ino_inst = $_POST['ino_inst'];
-                            $l_method = $_POST['l_method'];
                             $p_amt    = $_POST['p_amt'];
                             $i_amt    = $_POST['i_amt'];
                             $int_amt  = $_POST['daily_int'];
@@ -307,8 +283,8 @@ mysqli_select_db($con,DB_NAME);
                                 }
                             }
 
-                            $insert2 = "INSERT INTO loan (l_date,amount,interest,l_method,total_amt,installment_value,no_of_installments,value_of_interest,cust_id,l_status) 
-                              VALUES ('$l_date',$l_amt,$interest,'$l_method',$p_amt,$i_amt,$ino_inst,'$int_amt','$cust_id',1)";                         
+                            $insert2 = "INSERT INTO loan (l_date,amount,interest,total_amt,installment_value,no_of_installments,value_of_interest,cust_id,l_status) 
+                              VALUES ('$l_date',$l_amt,$interest,$p_amt,$i_amt,$ino_inst,'$int_amt','$cust_id',1)";                         
                             mysqli_query($con,$insert2);
 
                           }
@@ -333,8 +309,8 @@ mysqli_select_db($con,DB_NAME);
                       <th class="text-right"> paid amt</th>
                       <th class="text-right"> Installment value</th>                     
                       <th>                    cust.ID</th>
-                      <th class="text-center">                    Edit 				</th>
-                      <th class="text-center">                    Delete 			</th>
+                      <th class="text-center">  Edit 				</th>
+                      <th class="text-center">  Delete 			</th>
                     </thead>
                     <tbody>
                       <?php
@@ -448,60 +424,6 @@ mysqli_select_db($con,DB_NAME);
       });
     });
 
-    ///////////////////////////////////////////
-
-    //////  radio button onchange catch  ########## Insert 
-    // $('#rates').change(function(){
-
-    //   if (document.getElementById('r1').checked) {
-    //     rate_value = document.getElementById('r1').value;
-    //   }
-    //   else if(document.getElementById('r2').checked) {
-    //     rate_value = document.getElementById('r2').value;
-    //   }
-    //   else if(document.getElementById('r3').checked) {
-    //     rate_value = document.getElementById('r3').value;
-    //   }
-
-    //   var amount = $('#amount').val();
-    //   var int  = $('#int').val();
-    //   var no  = $('#no').val();
-    //   var paid_amt;
-    //   var installement_amt;
-    //   var interest_amt;
-    //   var daily_interest;
-
-    //   if(rate_value =='daily')
-    //   { 
-    //     // paid_amt = amount + (amount*(int/100)*no);
-    //     // installement_amt = (paid_amt/(no*30);
-    //     paid_amt = Number(amount) + (Number(amount)*(Number(int)/100))*Number(no);
-    //     installement_amt = Number(amount)/(Number(no)*30);
-    //     interest_amt = (Number(amount)*(Number(int)/100))*Number(no)/(Number(no)*30);
-
-    //   }else if(rate_value =="monthly")
-    //   {
-    //     // paid_amt = amount + (amount*(int/100)*no);
-    //     // installement_amt = (paid_amt/no);
-    //     paid_amt = Number(amount) + (Number(amount)*(Number(int)/100))*Number(no);
-    //     installement_amt = Number(amount)/Number(no);
-    //     interest_amt = ((Number(amount)*(Number(int)/100))*Number(no))/Number(no);
-    //   }
-    //   else
-    //   {       
-    //     paid_amt = Number(amount) + (Number(amount)*(Number(int)/100))*Number(no);
-    //     installement_amt = Number(amount)/(Number(no)*30);
-    //     interest_amt = (Number(amount)*(Number(int)/100))*Number(no)/(Number(no)*30);
-    //   }
-    //     daily_interest = (Number(amount)*(Number(int)/100))*Number(no)/(Number(no)*30);
-      
-    //   $('#paid_amt').val(paid_amt.toFixed(2));
-    //   $('#inst_val').val(installement_amt.toFixed(2));
-    //   $('#int_val').val(interest_amt.toFixed(2));
-    //   $('#daily_int').val(daily_interest.toFixed(2));
-    
-    // }); 
-    ////////////////////  
 
     ///////// Form values reset /////////
     function form_reset(){
@@ -536,18 +458,18 @@ mysqli_select_db($con,DB_NAME);
       var no  = $('#no').val();
       var paid_amt;
       var installement_amt;
-      var interest_amt;
+      // var interest_amt;
       var daily_interest;
       
         paid_amt = Number(amount) + (Number(amount)*(Number(int)/100))*Number(no);
-        installement_amt = Number(amount)/(Number(no));
-        interest_amt = ((Number(amount)*(Number(int)/100))*Number(no))/Number(no);
+        installement_amt = Number(paid_amt)/(Number(no));
+        // interest_amt = ((Number(amount)*(Number(int)/100))*Number(no))/Number(no);
 
         daily_interest = (Number(amount)*(Number(int)/100))*Number(no)/(Number(no)*30);
       
       $('#paid_amt').val(paid_amt.toFixed(2));
       $('#inst_val').val(installement_amt.toFixed(2));
-      $('#int_val').val(interest_amt.toFixed(2));
+      // $('#int_val').val(interest_amt.toFixed(2));
       $('#daily_int').val(daily_interest.toFixed(2));
     
     } 

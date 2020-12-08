@@ -198,8 +198,8 @@ mysqli_select_db($con,DB_NAME);
                       <th>                    Type</th>
                       <th>                    Name</th>
                       <th>                    Address</th>
-                      <th class="text-center">                    Edit 				</th>
-                      <th class="text-center">                    Delete 			</th>
+                      <th class="text-center"> Edit 				</th>
+                      <th class="text-center"> Delete 			</th>
                     </thead>
                     <tbody>
                       <?php
@@ -316,6 +316,7 @@ mysqli_select_db($con,DB_NAME);
         });
     }
     ////////////////////  
+    
 
     ///////// Form values reset /////////
     function form_reset(){
