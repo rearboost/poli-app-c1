@@ -282,25 +282,25 @@ mysqli_select_db($con,DB_NAME);
 
       const zeroPad = (num, places) => String(num).padStart(places, '0');
 
-      $.ajax({
-        url: 'func_custid.php',
-        method:"POST",
-        data:{type:this.value},
-        success: function (response) {//response is value returned from php (for your example it's "bye bye"
-          var lastNumber = Number(response.substr(1))+1;
-          var type  = response.charAt(0);
-          $('#customerID').val(type+zeroPad(lastNumber, 4));
-        }
-      });
+        var custType = this.value;
+        var type  = custType.charAt(0);
+
+        $.ajax({
+          url: 'func_custid.php',
+          method:"POST",
+          data:{type:this.value},
+          success: function (response) {//response is value returned from php (for your example it's "bye bye"
+            var lastNumber = Number(response.substr(1))+1;
+            $('#customerID').val(type+zeroPad(lastNumber, 4));
+          }
+        });
     });  
 
     ////////////////////  
 
     // Form edit 
     function editView(id){
-
-      alert(id)
-
+      
       $.ajax({
               url:"edit_customer.php",
               method:"POST",
