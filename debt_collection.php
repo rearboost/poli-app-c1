@@ -177,8 +177,8 @@ mysqli_select_db($con,DB_NAME);
 
                     <div class="col-md-2">
                       <div class="form-group">
-                        <label>Days</label>
-                        <input type="text" class="form-control" placeholder="" id="days" name = "day" required disabled>
+                        <!-- <label>Days</label> -->
+                        <input type="hidden" class="form-control" placeholder="" id="days" name = "day" required disabled>
                       </div>
                     </div>
                   </div>

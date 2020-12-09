@@ -7,13 +7,13 @@
 
 	$customer_id = $_POST['id'];
 
-	$get_loan = mysqli_query($con,"SELECT loan_no, total_amt,value_of_interest, l_date FROM loan l WHERE cust_id = '$customer_id' AND l_status = 1");
+	$get_loan = mysqli_query($con,"SELECT loan_no,amount,value_of_interest,l_date FROM loan l WHERE cust_id = '$customer_id' AND l_status = 1");
 
 	$data = mysqli_fetch_array($get_loan); 
 
 	$loan_no 	= $data['loan_no'];
 	$l_date 	= $data['l_date'];
-	$loan_amt 	= $data['total_amt'];
+	$loan_amt 	= $data['amount'];
 	$interest 	= $data['value_of_interest'];
 
 	$check_no = mysqli_query($con,"SELECT * FROM (SELECT * FROM loan_installement WHERE loan_installement.loan_no = '$loan_no') V ORDER BY V.id DESC LIMIT 1;");
