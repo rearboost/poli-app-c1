@@ -166,6 +166,7 @@ mysqli_select_db($con,DB_NAME);
                       </div>
                     </div>
                   </div>
+                  
                   <div class="row">
                     <div class="col-md-7 pr-3">
                       <div class="form-group">
@@ -174,6 +175,7 @@ mysqli_select_db($con,DB_NAME);
                       </div>
                     </div>
                   </div>
+
                   <div class="row">
                     <div class="col-md-7 pr-3">
                       <div class="form-group">
@@ -182,31 +184,16 @@ mysqli_select_db($con,DB_NAME);
                       </div>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-md-7 pr-3">
-                    <div class="form-group">
-                        <label>No. of Installments</label>
-                        <input type="text" class="form-control customerAmt" id="no" name = "ino_inst" required>
-                      </div>
-                    </div>
-                  </div>
+                  
                   <div class="row">
                     <div class="col-md-7 pr-3">
                       <div class="form-group">
-                        <label>Paid amount with interest</label>
-                        <input type="text" class="form-control" placeholder="LKR" id="paid_amt" name="p_amt" required>
+                        <label>Daily Interest</label>
+                        <input type="text" class="form-control" id="daily_int" name = "daily_int" required readonly>
                       </div>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-md-7 pr-3">
-                      <div class="form-group">
-                        <label>Value of installement (Monthly)</label>
-                        <input type="text" class="form-control" placeholder="LKR" id="inst_val" name = "i_amt" required>
-                      </div>
-                    </div>
-                  </div>
-                  <input type="hidden" class="form-control" id="daily_int" name = "daily_int" required>
+                  
             
                   <div class="row">
                     <div class="update ml-auto mr-auto">
@@ -220,9 +207,6 @@ mysqli_select_db($con,DB_NAME);
                             $l_date   = $_POST['l_date'];
                             $l_amt    = $_POST['l_amt'];
                             $interest = $_POST['interest'];
-                            $ino_inst = $_POST['ino_inst'];
-                            $p_amt    = $_POST['p_amt'];
-                            $i_amt    = $_POST['i_amt'];
                             $int_amt  = $_POST['daily_int'];
 
                             $year =  date("Y");
@@ -283,8 +267,8 @@ mysqli_select_db($con,DB_NAME);
                                 }
                             }
 
-                            $insert2 = "INSERT INTO loan (l_date,amount,interest,total_amt,installment_value,no_of_installments,value_of_interest,cust_id,l_status) 
-                              VALUES ('$l_date',$l_amt,$interest,$p_amt,$i_amt,$ino_inst,'$int_amt','$cust_id',1)";                         
+                            $insert2 = "INSERT INTO loan (l_date,amount,interest,value_of_interest,cust_id,l_status) 
+                              VALUES ('$l_date',$l_amt,$interest,$int_amt,'$cust_id',1)";                         
                             mysqli_query($con,$insert2);
 
                           }
@@ -301,14 +285,13 @@ mysqli_select_db($con,DB_NAME);
                 <div class="table-responsive">
                   <table class="table" id="myTable">
                     <thead class="text-primary">
-                      <th>                    ID</th>
-                      <th>                    Date</th>
-                      <th class="text-right"> Loan</th>
-                      <th class="text-right"> Interest(%)</th>
-                      <th class="text-right"> No.installments</th>
-                      <th class="text-right"> paid amt</th>
-                      <th class="text-right"> Installment value</th>                     
-                      <th>                    cust.ID</th>
+                      <th>                      Loan</th>
+                      <th>                      Date</th>
+                      <th class="text-right">   Loan Amt</th>
+                      <th class="text-right">   Interest(%)</th>                   
+                      <th class="text-right">   Daily Interest</th>
+                      <th class="text-center">  Status</th>
+                      <th>                      cust.ID</th>
                       <th class="text-center">  Edit 				</th>
                       <th class="text-center">  Delete 			</th>
                     </thead>
@@ -322,14 +305,13 @@ mysqli_select_db($con,DB_NAME);
                         while($row = mysqli_fetch_assoc($sql)) {
                           ?>
                           <tr>
-                            <td>                      <?php echo $row['loan_no'] ?>            </td>
-                            <td>                      <?php echo $row['l_date'] ?>             </td>
-                            <td class="text-right">   <?php echo $row['amount'] ?>             </td>
-                            <td class="text-right">   <?php echo $row['interest'] ?>           </td>
-                            <td class="text-right">   <?php echo $row['no_of_installments'] ?> </td>
-                            <td class="text-right">   <?php echo $row['total_amt'] ?>          </td>
-                            <td class="text-right">   <?php echo $row['installment_value']?>   </td>
-                            <td>                      <?php echo $row['cust_id'] ?>            </td>
+                            <td>                      <?php echo $row['loan_no'] ?>  </td>
+                            <td>                      <?php echo $row['l_date'] ?>   </td>
+                            <td class="text-right">   <?php echo $row['amount'] ?>   </td>
+                            <td class="text-right">   <?php echo $row['interest'] ?> </td>
+                            <td class="text-right">   <?php echo $row['value_of_interest'] ?> </td>
+                            <td class="text-center">  <?php echo $row['l_status'] ?> </td>
+                            <td>                      <?php echo $row['cust_id'] ?>  </td>
                             <td class="text-center">  
                               <a href="#" onclick="editView(<?php echo $row['loan_no']; ?>)" name="edit">
                               <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
@@ -455,21 +437,11 @@ mysqli_select_db($con,DB_NAME);
 
       var amount = $('#amount').val();
       var int  = $('#int').val();
-      var no  = $('#no').val();
-      var paid_amt;
-      var installement_amt;
-      // var interest_amt;
+      
       var daily_interest;
-      
-        paid_amt = Number(amount) + (Number(amount)*(Number(int)/100))*Number(no);
-        installement_amt = Number(paid_amt)/(Number(no));
-        // interest_amt = ((Number(amount)*(Number(int)/100))*Number(no))/Number(no);
 
-        daily_interest = (Number(amount)*(Number(int)/100))*Number(no)/(Number(no)*30);
+      daily_interest = (Number(amount)*(Number(int)/100))/30;
       
-      $('#paid_amt').val(paid_amt.toFixed(2));
-      $('#inst_val').val(installement_amt.toFixed(2));
-      // $('#int_val').val(interest_amt.toFixed(2));
       $('#daily_int').val(daily_interest.toFixed(2));
     
     } 

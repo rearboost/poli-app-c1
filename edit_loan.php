@@ -18,18 +18,12 @@
         $l_date   = $_POST['l_date'];
         $l_amt    = $_POST['l_amt'];
         $interest = $_POST['interest'];
-        $p_amt    = $_POST['p_amt'];
-        $i_amt    = $_POST['i_amt'];
-        $ino_inst = $_POST['ino_inst'];
         $int_amt  = $_POST['daily_int'];
 
         $edit = mysqli_query($con,"UPDATE loan 
                                   SET l_date             ='$l_date', 
                                       amount             ='$l_amt', 
                                       interest           ='$interest',
-                                      total_amt          ='$p_amt', 
-                                      installment_value  ='$i_amt', 
-                                      no_of_installments ='$ino_inst',
                                       value_of_interest  ='$int_amt'
                                   WHERE loan_no=$no");
       
@@ -102,34 +96,9 @@
 
             <div class="row">
               <div class="col-md-7 pr-3">
-              <div class="form-group">
-                  <label>No. of Installments</label>
-                  <input type="text" class="form-control customerAmt1" id="no1" name = "ino_inst" value="<?php echo $data['no_of_installments']?>">
-                </div>
-              </div>
-            </div>
-            
-            <div class="row">
-              <div class="col-md-7 pr-3">
                 <div class="form-group">
-                  <label>Paid amount with interest</label>
-                  <input type="text" class="form-control" placeholder="LKR" id="paid_amt1" name = "p_amt" value="<?php echo $data['total_amt']?>">
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-md-7 pr-3">
-                <div class="form-group">
-                  <label>Value of installement</label>
-                  <input type="text" class="form-control" placeholder="LKR" id="inst_val1" name = "i_amt" value="<?php echo $data['installment_value']?>">
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-7 pr-3">
-                <div class="form-group">
-                  <input type="hidden" class="form-control" id="daily_int1" name = "daily_int" value="<?php echo $data['value_of_interest']?>" required>
+                  <label>Daily Interest</label>
+                  <input type="text" class="form-control" id="daily_int1" name = "daily_int" value="<?php echo $data['value_of_interest']?>" required readonly>
                 </div>
               </div>
             </div>
@@ -160,20 +129,12 @@
 
       var amount = $('#amount1').val();
       var int  = $('#int1').val();
-      var no  = $('#no1').val();
-      var paid_amt;
-      var installement_amt;
-      // var interest_amt;
+
       var daily_interest;
       
-        paid_amt = Number(amount) + (Number(amount)*(Number(int)/100))*Number(no);
-        installement_amt = Number(paid_amt)/(Number(no));
-        // interest_amt = ((Number(amount)*(Number(int)/100))*Number(no))/Number(no);
 
-        daily_interest = (Number(amount)*(Number(int)/100))*Number(no)/(Number(no)*30);
+        daily_interest = (Number(amount)*(Number(int)/100))/30;
       
-      $('#paid_amt1').val(paid_amt.toFixed(2));
-      $('#inst_val1').val(installement_amt.toFixed(2));
       $('#daily_int1').val(daily_interest.toFixed(2));
     
     } 
