@@ -529,14 +529,13 @@ mysqli_select_db($con,DB_NAME);
             installement_amt = Number(0.00);
             remain_int =  Number(interest_amt) - Number(amount);
           }
-          remain_amt = Number(remain_amt) - Number(amount);  
+          remain_amt = Number(remain_amt) - Number(installement_amt);  
       
            $('#int_amount').val(interest_amt.toFixed(2));
            $('#inst_amt').val(installement_amt.toFixed(2));
            $('#r_int').val(remain_int.toFixed(2));
            $('#remain_amt').val(remain_amt.toFixed(2));
         }
-
       });
     }
 
