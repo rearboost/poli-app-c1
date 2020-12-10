@@ -18,8 +18,7 @@
 	$record = mysqli_query($con, $getid);
 	while ($row = mysqli_fetch_assoc($record)) {
 	
-		$cust_id = $row['cust_id'] ;
-	
+	    $cust_id = substr($row['cust_id'], 1); 
 	}
 	echo $cust_id;
 
