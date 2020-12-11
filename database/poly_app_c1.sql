@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 09, 2020 at 08:24 PM
+-- Generation Time: Dec 11, 2020 at 10:04 PM
 -- Server version: 10.1.10-MariaDB
 -- PHP Version: 5.5.30
 
@@ -58,26 +58,27 @@ CREATE TABLE `customer` (
   `cust_id` varchar(10) NOT NULL,
   `type` varchar(20) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `address` varchar(150) NOT NULL
+  `address` varchar(150) NOT NULL,
+  `vehicle_no` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `customer`
 --
 
-INSERT INTO `customer` (`cust_id`, `type`, `name`, `address`) VALUES
-('D0002', 'Daily', 'anneSS', 'katukurunda'),
-('D0006', 'Daily', 'Nirmala weerasinghe', 'Unawatuna,Galle'),
-('D0007', 'Daily', 'Iresha sandamali ', 'payagala'),
-('D0009', 'Daily', 'anuradha', 'pituwala'),
-('D0010', 'Daily', 'harshika sammani', 'wadduwa south'),
-('D0011', 'Daily', 'Sachintha Dilshan', 'Katukurunda'),
-('M0001', 'Monthly', 'Hasith Lakmal', 'panadura'),
-('M0003', 'Monthly', 'Gimhani', 'pitigala,elpitiya'),
-('M0010', 'Monthly', 'Chirath yapa', 'Gampola'),
-('M0076', 'Monthly', 'anushka bandara', 'maharagamaaa'),
-('M0077', 'Monthly', 'Hasitha', 'kalutara'),
-('M0078', 'Monthly', 'Damith', 'pelawatta');
+INSERT INTO `customer` (`cust_id`, `type`, `name`, `address`, `vehicle_no`) VALUES
+('D0002', 'Daily', 'anneSS', 'katukurunda', ''),
+('D0006', 'Daily', 'Nirmala weerasinghe', 'Unawatuna,Galle', ''),
+('D0007', 'Daily', 'Iresha sandamali ', 'payagala', ''),
+('D0009', 'Daily', 'anuradha', 'pituwala', ''),
+('D0010', 'Daily', 'harshika sammani', 'wadduwa south', ''),
+('D0011', 'Daily', 'Sachintha Dilshan', 'Katukurunda', ''),
+('M0001', 'Monthly', 'Hasith Lakmal', 'panadura', ''),
+('M0003', 'Monthly', 'Gimhani', 'pitigala,elpitiya', ''),
+('M0010', 'Monthly', 'Chirath yapa', 'Gampola', ''),
+('M0076', 'Monthly', 'anushka bandara', 'maharagamaaa', ''),
+('M0077', 'Monthly', 'Hasitha', 'kalutara', ''),
+('M0078', 'Monthly', 'Damith', 'pelawatta', '');
 
 -- --------------------------------------------------------
 
@@ -158,7 +159,10 @@ INSERT INTO `loan_installement` (`id`, `li_date`, `installement_amt`, `interest_
 (49, '2020-12-08', 1000.00, 0.00, '0', 144680.00, 17),
 (50, '2020-12-08', 0.00, 533.32, '33', 146500.00, 20),
 (51, '2020-12-08', 200.00, 0.00, '0', 144480.00, 17),
-(52, '2020-12-02', 4700.00, 300.00, '0', 55000.00, 24);
+(52, '2020-12-02', 4700.00, 300.00, '0', 55000.00, 24),
+(53, '2020-12-09', 4300.00, 700.00, '0', 50000.00, 24),
+(54, '2020-12-10', 4900.00, 100.00, '0', 45100.00, 24),
+(55, '2020-12-10', 5000.00, 0.00, '0', 40100.00, 24);
 
 -- --------------------------------------------------------
 
@@ -191,7 +195,7 @@ INSERT INTO `summary` (`id`, `year`, `month`, `loanAMT`, `debtAMT`, `createDate`
 (9, '2020', '08', '0.00', '0.00', '2020-11-24'),
 (10, '2020', '09', '0.00', '0.00', '2020-11-24'),
 (11, '2020', '10', '0.00', '0.00', '2020-11-24'),
-(12, '2020', '12', '800000.00', '92222.89', '2020-11-24');
+(12, '2020', '12', '800000.00', '106422.89', '2020-11-24');
 
 -- --------------------------------------------------------
 
@@ -271,7 +275,7 @@ ALTER TABLE `loan`
 -- AUTO_INCREMENT for table `loan_installement`
 --
 ALTER TABLE `loan_installement`
-  MODIFY `id` int(7) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id` int(7) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 --
 -- AUTO_INCREMENT for table `summary`
 --

@@ -18,10 +18,12 @@
         $type      = $_POST['type1'];
         $name      = $_POST['name1'];
         $address   = $_POST['address1'];
+        $vehicle_no  = $_POST['reg_no1'];
       
         $edit = mysqli_query($con,"UPDATE customer 
                                           SET name  ='$name', 
-                                              address ='$address' 
+                                              address ='$address', 
+                                              vehicle_no ='$vehicle_no' 
                                           WHERE cust_id='$cust_id'");
       
         if($edit)
@@ -76,6 +78,14 @@
                 <div class="form-group">
                   <label>Address</label>
                   <input type="text" class="form-control" name ="address1" value="<?php echo $data['address']?>">
+                </div>
+              </div>
+              </div>
+              <div class="row">                  
+              <div class="col-md-7 pr-1">
+                <div class="form-group">
+                  <label>Vehicle Reg_no</label>
+                  <input type="text" class="form-control" name = "reg_no1" value="<?php echo $data['vehicle_no']?>">
                 </div>
               </div>
               </div>
