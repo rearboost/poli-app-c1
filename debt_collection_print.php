@@ -47,90 +47,74 @@ mysqli_select_db($con,DB_NAME);
     $data = mysqli_fetch_array($qry); // fetch data
                  
 ?>
-       <div class="print_form" style="padding: 70px 0; display: flex; justify-content: center;">
-        <form style="width: 30%; padding: 30px; border: 1px solid;">
-          <div class="col-md-12">
-            <div class="row">
-              <div class="col-md-6 pr-3">
-                <div class="form-group">
-                  <label><b>Customer</b></label> : <?php echo $data['cust_id'] ?>
-                </div>
-              </div>              
-              <div class="col-md-6 pr-3">
-                <div class="form-group">
-                  <label><b>Date</b></label> : <?php echo $data['li_date'] ?>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-12 pr-1">
+       <div class="print_form">
+        <form >
+          <div>
+             <span style="padding-left: 35px; font-size: 22px; color: black;"><b>C.S MOTORS</b></span><br>
+             <span style="padding-left: 25px; font-size: revert; color: black;">Pitigala Road , Pelawatta</span><br>
+             <span style="padding-left: 30px; font-size: small; color: black;"><b>Hotline : 071 - 337 38 51</b></span>
+          </div>
+          <span style="color: black;">--------------------------------------------------</span>
             <div class="row"> 
               <div class="col-md-6 pr-1">
                 <div class="form-group">
-                  <label><b>Loan Amount</b></label> : 
+                  <label style="color: black;"><b>Customer</b></label><span style="color: black;"> :  
+                  <?php
+                     $name_id = $data['cust_id'];
+                     $custom = "SELECT * FROM customer WHERE cust_id = '$name_id' ";
+                     $result1 = mysqli_query($con,$custom);
+                     $dataName = mysqli_fetch_array($result1);
+                     echo $dataName['name'];
+                  
+                     ?>
+                    </span>
                 </div>
-              </div>
+              </div> 
+            </div> 
+            <div class="row"> 
               <div class="col-md-6 pr-1">
                 <div class="form-group">
-                   <?php echo $data['amount'] ?>
+                  <label style="color: black;"><b>Date</b></label><span style="color: black;"> :  <?php echo $data['li_date'] ?></span>
                 </div>
-              </div>
+              </div> 
             </div> 
 
+            <div class="row"> 
+              <div class="col-md-6 pr-1">
+                <div class="form-group">
+                  <label  style="color: black;"><b>Loan Amount</b></label><span style="color: black;"> : Rs <?php echo $data['amount'] ?>
+                </div>
+              </div> 
+            </div> 
             <div class="row">
               <div class="col-md-6 pr-1">
                 <div class="form-group">
-                  <label><b>Installment amt</b></label> : 
-                </div>
-              </div>
-              <div class="col-md-6 pr-1">
-                <div class="form-group">
-                  <?php echo $data['installement_amt'] ?>
+                  <label  style="color: black;"><b>Installment amt</b></label><span style="color: black;"> : Rs <?php echo $data['installement_amt'] ?>
                 </div>
               </div>
             </div>
-            
             <div class="row">                  
               <div class="col-md-6 pr-1">
                 <div class="form-group">
-                  <label><b>Interest amount</b></label> : 
-                </div>
-              </div>
-              <div class="col-md-6 pr-1">
-                <div class="form-group">
-                  <?php echo $data['interest_amt'] ?>
+                  <label  style="color: black;"><b>Interest amount</b></label><span style="color: black;"> : Rs <?php echo $data['interest_amt'] ?>
                 </div>
               </div>
             </div>
-            
             <div class="row">
               <div class="col-md-6 pr-1">
                 <div class="form-group">
-                  <label><b>Remain Interest</b></label> : 
-                </div>
-              </div>
-              <div class="col-md-6 pr-1">
-                <div class="form-group">
-                  <?php echo $data['remaining_int_amt'] ?>
+                  <label  style="color: black;"><b>Remain Interest</b></label><span style="color: black;"> : Rs <?php echo $data['remaining_int_amt'] ?>
                 </div>
               </div>
             </div>
-            
             <div class="row">
               <div class="col-md-6 pr-1">
-                <div class="form-group">
-                  <label><b>Remaining amt</b></label> : 
-                </div>
-              </div>
-              <div class="col-md-6 pr-1">
-                <div class="form-group">
-                  <?php echo $data['remaining_amt'] ?>
+                <div class="form-group" style="margin-bottom: 0px;">
+                  <label  style="color: black;"><b>Remaining amt</b></label><span style="color: black;"> : Rs <?php echo $data['remaining_amt'] ?>
                 </div>
               </div>
             </div>
-
-            </div>
-          </div>
+            <span style="color: black;">--------------------------------------------------</span>
          </form> 
        </div>
   </div>
@@ -153,9 +137,10 @@ mysqli_select_db($con,DB_NAME);
   <script src="assets/js/sweetalert.min.js"></script>
   <script>
 
-  /////////////////////////////////////// Table Search 
+  ///////////////////////////////////////  Print  
   $(document).ready(function(){
-      setTimeout(function(){ window.print(); }, 2500);
+      setTimeout(function(){ window.print(); }, 2000);
+      setTimeout(window.close, 3000);
   });
   ///////////////////////////////////////////
 
