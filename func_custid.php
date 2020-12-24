@@ -8,12 +8,16 @@
 	if($type == "Daily")
 	{
 		$getid = "SELECT customer.cust_id  FROM customer WHERE customer.cust_id LIKE 'D%' AND customer.type = 'Daily' 
-				ORDER BY customer.cust_id DESC LIMIT 1";		
+				ORDER BY customer.cust_id DESC LIMIT 1";
+		$cust_id ="D0000";
+				
 	}
 	else
 	{
 	   $getid = "SELECT customer.cust_id  FROM customer WHERE customer.cust_id LIKE 'M%' AND customer.type = 'Monthly' 
 				ORDER BY customer.cust_id DESC LIMIT 1";
+
+	    $cust_id ="M0000";
 	}
 	$record = mysqli_query($con, $getid);
 	while ($row = mysqli_fetch_assoc($record)) {
