@@ -114,6 +114,13 @@ mysqli_select_db($con,DB_NAME);
                 </div>
               </div>
             </div>
+            <div class="row">
+              <div class="col-md-6 pr-1">
+                <div class="form-group" style="margin-bottom: 0px;">
+                  <label  style="color: black;"><b>Total paid amt</b></label><span style="color: black;"> : Rs <?php echo $data['paid'] ?>
+                </div>
+              </div>
+            </div>
             <span style="color: black;">--------------------------------------------------</span>
          </form> 
        </div>

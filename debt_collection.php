@@ -232,6 +232,7 @@ mysqli_select_db($con,DB_NAME);
                             $custom_id      = $_POST['id'];
                             $li_id          = $_POST['nextId'];
                             $li_date        = $_POST['li_date'];
+                            $amt            = $_POST['amt'];
                             $i_amt          = $_POST['i_amt'];
                             $int_amt        = $_POST['int_amt'];
                             $remain_int_amt = $_POST['r_int'];
@@ -300,7 +301,7 @@ mysqli_select_db($con,DB_NAME);
                           		$loan_no = $row_l['loan_no'];
                           		$loan_amount = $row_l['amount'];
 
-                          $insert = "INSERT INTO loan_installement (id,li_date,installement_amt,interest_amt,remaining_int_amt,remaining_amt,loan_no) VALUES ($li_id,'$li_date',$i_amt,$int_amt,$remain_int_amt,$remain_amt,$loan_no)";
+                          $insert = "INSERT INTO loan_installement (id,li_date,paid,installement_amt,interest_amt,remaining_int_amt,remaining_amt,loan_no) VALUES ($li_id,'$li_date',$amt,$i_amt,$int_amt,$remain_int_amt,$remain_amt,$loan_no)";
                           mysqli_query($con,$insert);
 
                           if($remain_amt <= 0){
@@ -324,12 +325,12 @@ mysqli_select_db($con,DB_NAME);
                   	<thead class="text-primary">
                   	  <th>                    ID 				        </th>
                       <th>                    Installement Date </th>
-                      <th class="text-right"> Installement amt 	</th>
+                      <th class="text-right"> Paid amt 	      </th>
+                      <th class="text-right"> Installement amt  </th>
                       <th class="text-right"> Interest amt 		  </th>
                       <th class="text-right"> Remaining interest</th>
                       <th class="text-right"> Remaining amt     </th>
-                      <th class="text-right"> Loan no 			    </th><!-- 
-                      <th class="text-center">Edit 				      </th> -->
+                      <th class="text-right"> Loan no 			    </th>
                       <th class="text-center">Delete 			      </th>
                       <th class="text-center">Print 			      </th>
                     </thead>
@@ -347,15 +348,13 @@ mysqli_select_db($con,DB_NAME);
                             <tr>
                             <td>                      <?php echo $row['id']  ?>              </td>
                             <td>                      <?php echo $row['li_date']  ?>         </td>
+                            <td class="text-right">   <?php echo $row['paid']?>             </td>
                             <td class="text-right">   <?php echo $row['installement_amt']?>  </td>
                             <td class="text-right">   <?php echo $row['interest_amt'] ?>     </td>
                             <td class="text-right">   <?php echo $row['remaining_int_amt']?> </td>
                             <td class="text-right">   <?php echo $row['remaining_amt'] ?>    </td>
                             <td class="text-right">   <?php echo $row['loan_no']  ?>         </td>
-                            <!--td class="text-center">  
-                              <a href="#" onclick="editView(<?php //echo $row['id']; ?>)" name="edit">
-                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                          	</td-->
+                           
                           	<td class="text-center">  
                             	<a href="#" onclick="confirmation('event','<?php echo $row['id']; ?>')" name="delete">
                             	<i class="fa fa-trash-o" aria-hidden="true"></i></a>
