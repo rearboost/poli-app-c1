@@ -175,10 +175,10 @@ mysqli_select_db($con,DB_NAME);
                       </div>
                     </div>
 
-                    <div class="col-md-2">
+                    <div class="col-md-4">
                       <div class="form-group">
-                        <!-- <label>Days</label> -->
-                        <input type="hidden" class="form-control" placeholder="" id="days" name = "day" required disabled>
+                        <input type="hidden" class="form-control" id="days" name = "day" required disabled>
+                        <input type="text" class="form-control" id="daily_int" name = "daily_int" required disabled>
                       </div>
                     </div>
                   </div>
@@ -186,7 +186,8 @@ mysqli_select_db($con,DB_NAME);
                     <div class="col-md-6 pr-3">
                       <div class="form-group">
                         <label>Amount</label>
-                        <input type="text" class="form-control checkAmt" placeholder="LKR" id="amt" name = "amt" required disabled="">
+                        <input type="text" class="form-control checkAmt" placeholder="LKR" id="amt" name = "amt" required disabled>
+                        <input type="text" class="form-control" placeholder="LKR" id="new_amt" name = "new_amt" required disabled>
                       </div>
                     </div>
                   </div>
@@ -233,6 +234,8 @@ mysqli_select_db($con,DB_NAME);
                             $li_id          = $_POST['nextId'];
                             $li_date        = $_POST['li_date'];
                             $amt            = $_POST['amt'];
+                            $new_amt        = $_POST['new_amt'];
+                            $daily_int      = $_POST['daily_int'];
                             $i_amt          = $_POST['i_amt'];
                             $int_amt        = $_POST['int_amt'];
                             $remain_int_amt = $_POST['r_int'];
@@ -303,6 +306,9 @@ mysqli_select_db($con,DB_NAME);
 
                           $insert = "INSERT INTO loan_installement (id,li_date,paid,installement_amt,interest_amt,remaining_int_amt,remaining_amt,loan_no) VALUES ($li_id,'$li_date',$amt,$i_amt,$int_amt,$remain_int_amt,$remain_amt,$loan_no)";
                           mysqli_query($con,$insert);
+
+                          $update_new = mysqli_query($con,"UPDATE loan SET amount=$new_amt,
+                           value_of_interest = $daily_int WHERE loan_no=$loan_no");
 
                           if($remain_amt <= 0){
                             $update_status = mysqli_query($con,"UPDATE loan SET l_status =0 WHERE loan_no=$loan_no");
@@ -475,157 +481,161 @@ mysqli_select_db($con,DB_NAME);
           $('#amt').prop('disabled', false);
         }
       });
-    }); 
+}); 
 
-  // calculate new remain amount when fill the installement value and interest value
-    // $('#int_amount').change(function(){
+///////// Form values reset /////////
+function form_reset(){
+  document.getElementById("collectionDebt").reset();
+}
 
-     
-    // }); 
-
-    ///////// Form values reset /////////
-    function form_reset(){
-      document.getElementById("collectionDebt").reset();
-    }
-
-    //////////////////// 
+//////////////////// 
 
 
-    $('.checkAmt').on('keyup',function(){
+$('.checkAmt').on('keyup',function(){
 
-      checkAmt()
+  checkAmt()
 
-    })
+})
 
-    function checkAmt(){
+function checkAmt(){
 
-      var amount = $('#amt').val();
-      var days   = $('#days').val();
-      var installement_amt;
-      var interest_amt;
-      var remain_int;
-      var remain_amt;
-      var id =  $('#custom_id').val();
+  var amount = $('#amt').val();
+  var days   = $('#days').val();
+  var new_daily_int;
+  var new_loan_amt;
+  var installement_amt;
+  var interest_amt;
+  var remain_int;
+  var remain_amt;
+  var id =  $('#custom_id').val();
 
-      $.ajax({
-        url: 'remain_amt.php',
-        method:"POST",
-        data:{id:id},
-        success: function (response) {
+  $.ajax({
+    url: 'remain_amt.php',
+    method:"POST",
+    data:{id:id},
+    success: function (response) {
 
-          var obj = JSON.parse(response);
-         // $('#remain_amt').val(obj.remain_amt);
-          var remain_amt      =  obj.remain_amt
-          var remain_int      =  obj.remain_int
-          var daily_interest  =  obj.interest
+      var obj = JSON.parse(response);
+     // $('#remain_amt').val(obj.remain_amt);
+      var remain_amt      =  obj.remain_amt
+      var remain_int      =  obj.remain_int
+      var loan            =  obj.loan_amt
+      var daily_interest  =  obj.interest
 
-          interest_amt = Number(remain_int) + (Number(daily_interest) * Number(days));
-          
-          if(amount>=interest_amt){
-            installement_amt = Number(amount) - Number(interest_amt);
-            remain_int = Number(0.00);
-          }else{
-            installement_amt = Number(0.00);
-            remain_int =  Number(interest_amt) - Number(amount);
-          }
-          remain_amt = Number(remain_amt) - Number(installement_amt);  
+      // this value doesn't come from remain.amount.php 
+      var per_int         =  obj.int_perc
+
       
-           $('#int_amount').val(interest_amt.toFixed(2));
-           $('#inst_amt').val(installement_amt.toFixed(2));
-           $('#r_int').val(remain_int.toFixed(2));
-           $('#remain_amt').val(remain_amt.toFixed(2));
-        }
-      });
-    }
-
-    ////////////////////  
-
-    // Bill
-    function printView(id){
-      window.open('debt_collection_print?id='+id, '_blank');
-    }
-    /////////////////////
-    ////////////////////  
-
-    // Form edit 
-    function editView(id){
-
-      $.ajax({
-              url:"edit_debt.php",
-              method:"POST",
-              data:{"id":id},
-              success:function(data){
-                $('#show_view').html(data);
-                $('#Form2').modal('show');
-              }
-        });
-    }
-    //////////////////// 
-     $(function () {
-
-          $('#collectionDebt').on('submit', function (e) {
-
-            e.preventDefault();
-
-            var nextId = $('#nextId').val();
-            
-            $.ajax({
-              type: 'post',
-              url: 'debt_collection.php',
-              data: $('#collectionDebt').serialize(),
-              success: function () {
-                swal({
-                  title: "Good job !",
-                  text: "Successfully Submited",
-                  icon: "success",
-                  button: "Ok !",
-                  });
-                  setTimeout(function(){window.open('debt_collection_print?id='+nextId, '_blank'); }, 2500);
-                  setTimeout(function(){ location.reload(); }, 2500);
-              }
-            });
-
-          });
-      });
+      interest_amt = (Number(daily_interest) * Number(days));
+      
+      if(amount>=interest_amt){
+        installement_amt = Number(amount) - Number(interest_amt);
+        remain_int       = Number(0.00);
+        new_loan_amt     = Number(loan);
+        new_daily_int    = (Number(new_loan_amt)*(Number(per_int)/100))/30;
+      }else{
+        installement_amt = Number(0.00);
+        remain_int       = Number(interest_amt) - Number(amount);
+        new_loan_amt     = Number(loan)+Number(remain_int);
+        new_daily_int    = (Number(new_loan_amt)*(Number(per_int)/100))/30;
+      }
+      remain_amt = Number(remain_amt) - Number(installement_amt);  
   
-    ////////////////////  
-
-    // Form delete 
-    function delete_debt(id){
-
-      $.ajax({
-              url:"delete_debt",
-              method:"POST",
-              data:{"id":id},
-              success:function(data){
-                  swal({
-                  title: "Good job !",
-                  text: data,
-                  icon: "success",
-                  button: "Ok !",
-                  });
-                  setTimeout(function(){ location.reload(); }, 2500);
-      
-              }
-        });
+       $('#int_amount').val(interest_amt.toFixed(2));
+       $('#inst_amt').val(installement_amt.toFixed(2));
+       $('#r_int').val(remain_int.toFixed(2));
+       $('#remain_amt').val(remain_amt.toFixed(2));
+       $('#new_amt').val(new_loan_amt.toFixed(2));
+       $('#daily_int').val(new_daily_int.toFixed(2));
     }
+  });
+}
 
-    // delete confirmation javascript
-    function confirmation(e,id) {
-        swal({
-        title: "Are you sure?",
-        text: "Want to Delete this recode !",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-        })
-        .then((willDelete) => {
-            if (willDelete) {
-               delete_debt(id)
-            } 
+/////////////// Bill//////////////////// 
+function printView(id){
+  window.open('debt_collection_print?id='+id, '_blank');
+}
+/////////////////////
+
+// Form edit 
+function editView(id){
+
+  $.ajax({
+          url:"edit_debt.php",
+          method:"POST",
+          data:{"id":id},
+          success:function(data){
+            $('#show_view').html(data);
+            $('#Form2').modal('show');
+          }
+    });
+}
+//////////////////// 
+ $(function () {
+
+      $('#collectionDebt').on('submit', function (e) {
+
+        e.preventDefault();
+
+        var nextId = $('#nextId').val();
+        
+        $.ajax({
+          type: 'post',
+          url: 'debt_collection.php',
+          data: $('#collectionDebt').serialize(),
+          success: function () {
+            swal({
+              title: "Good job !",
+              text: "Successfully Submited",
+              icon: "success",
+              button: "Ok !",
+              });
+              setTimeout(function(){window.open('debt_collection_print?id='+nextId, '_blank'); }, 2500);
+              setTimeout(function(){ location.reload(); }, 2500);
+          }
         });
-    }
-    ////////////////////  
+
+      });
+  });
+
+////////////////////  
+
+// Form delete 
+function delete_debt(id){
+
+  $.ajax({
+          url:"delete_debt",
+          method:"POST",
+          data:{"id":id},
+          success:function(data){
+              swal({
+              title: "Good job !",
+              text: data,
+              icon: "success",
+              button: "Ok !",
+              });
+              setTimeout(function(){ location.reload(); }, 2500);
+  
+          }
+    });
+}
+
+// delete confirmation javascript
+function confirmation(e,id) {
+    swal({
+    title: "Are you sure?",
+    text: "Want to Delete this recode !",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+    })
+    .then((willDelete) => {
+        if (willDelete) {
+           delete_debt(id)
+        } 
+    });
+}
+////////////////////  
     
   </script>
 </body>

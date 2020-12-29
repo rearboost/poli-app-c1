@@ -14,8 +14,9 @@
 	$loan_no 	= $data['loan_no'];
 	$l_date 	= $data['l_date'];
 	$loan_amt 	= $data['amount'];
+	$int_perc 	= $data['interest'];
 	$interest 	= $data['value_of_interest'];
-
+	
 	$check_no = mysqli_query($con,"SELECT * FROM (SELECT * FROM loan_installement WHERE loan_installement.loan_no = '$loan_no') V ORDER BY V.id DESC LIMIT 1;");
 
     $data1 = mysqli_fetch_array($check_no); 
@@ -40,6 +41,7 @@
 	$myObj->remain_amt  = $remain_amt;
 	$myObj->remain_int  = $remain_int;
 	$myObj->loan_amt 	= $loan_amt;
+	$myObj->int_perc 	= $int_perc;
 	$myObj->interest 	= $interest;
 	$myObj->pre_date 	= $pre_date;
 
