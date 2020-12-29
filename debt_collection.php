@@ -524,7 +524,6 @@ function checkAmt(){
 
       // this value doesn't come from remain.amount.php 
       var per_int         =  obj.int_perc
-
       
       interest_amt = (Number(daily_interest) * Number(days));
       

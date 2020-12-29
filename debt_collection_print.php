@@ -58,7 +58,7 @@ mysqli_select_db($con,DB_NAME);
             <div class="row"> 
               <div class="col-md-6 pr-1">
                 <div class="form-group">
-                  <label style="color: black;"><b>Customer</b></label><span style="color: black;"> :  
+                  <label style="color: black; margin-bottom: 0;"><b>Customer</b></label><span style="color: black;"> :  
                   <?php
                      $name_id = $data['cust_id'];
                      $custom = "SELECT * FROM customer WHERE cust_id = '$name_id' ";
@@ -67,7 +67,8 @@ mysqli_select_db($con,DB_NAME);
                      echo $dataName['name'];
                   
                      ?>
-                    </span>
+                    </span><br>
+                    <span style="padding-left: 83px; font-size: small;"><b><?php echo "( ".$data['cust_id']." )" ?></b></span>
                 </div>
               </div> 
             </div> 
@@ -146,8 +147,8 @@ mysqli_select_db($con,DB_NAME);
 
   ///////////////////////////////////////  Print  
   $(document).ready(function(){
-      setTimeout(function(){ window.print(); }, 2000);
-      setTimeout(window.close, 3000);
+     // setTimeout(function(){ window.print(); }, 2000);
+     // setTimeout(window.close, 3000);
   });
   ///////////////////////////////////////////
 

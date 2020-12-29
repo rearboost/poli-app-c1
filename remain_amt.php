@@ -7,7 +7,7 @@
 
 	$customer_id = $_POST['id'];
 
-	$get_loan = mysqli_query($con,"SELECT loan_no,amount,value_of_interest,l_date FROM loan l WHERE cust_id = '$customer_id' AND l_status = 1");
+	$get_loan = mysqli_query($con,"SELECT loan_no,amount,value_of_interest,l_date,interest FROM loan l WHERE cust_id = '$customer_id' AND l_status = 1");
 
 	$data = mysqli_fetch_array($get_loan); 
 
