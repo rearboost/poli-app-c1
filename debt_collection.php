@@ -233,9 +233,9 @@ mysqli_select_db($con,DB_NAME);
                             $custom_id      = $_POST['id'];
                             $li_id          = $_POST['nextId'];
                             $li_date        = $_POST['li_date'];
+                            $daily_int      = $_POST['daily_int'];
                             $amt            = $_POST['amt'];
                             $new_amt        = $_POST['new_amt'];
-                            $daily_int      = $_POST['daily_int'];
                             $i_amt          = $_POST['i_amt'];
                             $int_amt        = $_POST['int_amt'];
                             $remain_int_amt = $_POST['r_int'];
@@ -532,13 +532,15 @@ function checkAmt(){
         remain_int       = Number(0.00);
         new_loan_amt     = Number(loan);
         new_daily_int    = (Number(new_loan_amt)*(Number(per_int)/100))/30;
+        remain_amt = Number(remain_amt) - Number(installement_amt);  
       }else{
         installement_amt = Number(0.00);
         remain_int       = Number(interest_amt) - Number(amount);
         new_loan_amt     = Number(loan)+Number(remain_int);
         new_daily_int    = (Number(new_loan_amt)*(Number(per_int)/100))/30;
+        remain_amt       = Number(remain_amt) + Number(remain_int);  
       }
-      remain_amt = Number(remain_amt) - Number(installement_amt);  
+        
   
        $('#int_amount').val(interest_amt.toFixed(2));
        $('#inst_amt').val(installement_amt.toFixed(2));
