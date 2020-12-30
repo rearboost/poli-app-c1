@@ -31,10 +31,10 @@ include("db_config.php");
                                       cheque_no     ='$cheque_no', 
                                       valid_date    ='$v_date', 
                                       exchange_date ='$c_date', 
-                                      cheque_value  ='$cheque_amt ', 
+                                      cheque_value  ='$cheque_amt', 
                                       interest      ='$c_interest', 
                                       exchange_amt  ='$exchange_amt', 
-                                      status        ='$status '
+                                      status        ='$status'
                                   WHERE cheque_id=$ch_id ");
       
         if($edit)

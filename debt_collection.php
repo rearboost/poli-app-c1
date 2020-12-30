@@ -307,6 +307,7 @@ mysqli_select_db($con,DB_NAME);
                           $insert = "INSERT INTO loan_installement (id,li_date,paid,installement_amt,interest_amt,remaining_int_amt,remaining_amt,loan_no) VALUES ($li_id,'$li_date',$amt,$i_amt,$int_amt,$remain_int_amt,$remain_amt,$loan_no)";
                           mysqli_query($con,$insert);
 
+                          // not updated
                           $update_new = mysqli_query($con,"UPDATE loan SET amount=$new_amt,
                            value_of_interest = $daily_int WHERE loan_no=$loan_no");
 
@@ -331,9 +332,9 @@ mysqli_select_db($con,DB_NAME);
                   	<thead class="text-primary">
                   	  <th>                    ID 				        </th>
                       <th>                    Installement Date </th>
-                      <th class="text-right"> Paid amt 	      </th>
                       <th class="text-right"> Installement amt  </th>
                       <th class="text-right"> Interest amt 		  </th>
+                      <th class="text-right"> Paid amt          </th>
                       <th class="text-right"> Remaining interest</th>
                       <th class="text-right"> Remaining amt     </th>
                       <th class="text-right"> Loan no 			    </th>
@@ -354,9 +355,9 @@ mysqli_select_db($con,DB_NAME);
                             <tr>
                             <td>                      <?php echo $row['id']  ?>              </td>
                             <td>                      <?php echo $row['li_date']  ?>         </td>
-                            <td class="text-right">   <?php echo $row['paid']?>             </td>
                             <td class="text-right">   <?php echo $row['installement_amt']?>  </td>
                             <td class="text-right">   <?php echo $row['interest_amt'] ?>     </td>
+                            <td class="text-right">   <?php echo $row['paid']?>              </td>
                             <td class="text-right">   <?php echo $row['remaining_int_amt']?> </td>
                             <td class="text-right">   <?php echo $row['remaining_amt'] ?>    </td>
                             <td class="text-right">   <?php echo $row['loan_no']  ?>         </td>
