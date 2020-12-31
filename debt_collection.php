@@ -178,7 +178,6 @@ mysqli_select_db($con,DB_NAME);
                     <div class="col-md-4">
                       <div class="form-group">
                         <input type="hidden" class="form-control" id="days" name = "day" required disabled>
-                        <input type="text" class="form-control" id="daily_int" name = "daily_int" required disabled>
                       </div>
                     </div>
                   </div>
@@ -187,7 +186,6 @@ mysqli_select_db($con,DB_NAME);
                       <div class="form-group">
                         <label>Amount</label>
                         <input type="text" class="form-control checkAmt" placeholder="LKR" id="amt" name = "amt" required disabled>
-                        <input type="text" class="form-control" placeholder="LKR" id="new_amt" name = "new_amt" required disabled>
                       </div>
                     </div>
                   </div>
@@ -307,10 +305,6 @@ mysqli_select_db($con,DB_NAME);
                           $insert = "INSERT INTO loan_installement (id,li_date,paid,installement_amt,interest_amt,remaining_int_amt,remaining_amt,loan_no) VALUES ($li_id,'$li_date',$amt,$i_amt,$int_amt,$remain_int_amt,$remain_amt,$loan_no)";
                           mysqli_query($con,$insert);
 
-                          // not updated
-                          $update_new = mysqli_query($con,"UPDATE loan SET amount=$new_amt,
-                           value_of_interest = $daily_int WHERE loan_no=$loan_no");
-
                           if($remain_amt <= 0){
                             $update_status = mysqli_query($con,"UPDATE loan SET l_status =0 WHERE loan_no=$loan_no");
                           }
@@ -338,7 +332,7 @@ mysqli_select_db($con,DB_NAME);
                       <th class="text-right"> Remaining interest</th>
                       <th class="text-right"> Remaining amt     </th>
                       <th class="text-right"> Loan no 			    </th>
-                      <th class="text-center">Delete 			      </th>
+                      <th class="text-center">Delete            </th>
                       <th class="text-center">Print 			      </th>
                     </thead>
                     <tbody>
@@ -502,8 +496,6 @@ function checkAmt(){
 
   var amount = $('#amt').val();
   var days   = $('#days').val();
-  var new_daily_int;
-  var new_loan_amt;
   var installement_amt;
   var interest_amt;
   var remain_int;
@@ -522,23 +514,16 @@ function checkAmt(){
       var remain_int      =  obj.remain_int
       var loan            =  obj.loan_amt
       var daily_interest  =  obj.interest
-
-      // this value doesn't come from remain.amount.php 
-      var per_int         =  obj.int_perc
       
       interest_amt = (Number(daily_interest) * Number(days));
       
       if(amount>=interest_amt){
         installement_amt = Number(amount) - Number(interest_amt);
         remain_int       = Number(0.00);
-        new_loan_amt     = Number(loan);
-        new_daily_int    = (Number(new_loan_amt)*(Number(per_int)/100))/30;
-        remain_amt = Number(remain_amt) - Number(installement_amt);  
+        remain_amt       = Number(remain_amt) - Number(installement_amt);  
       }else{
         installement_amt = Number(0.00);
         remain_int       = Number(interest_amt) - Number(amount);
-        new_loan_amt     = Number(loan)+Number(remain_int);
-        new_daily_int    = (Number(new_loan_amt)*(Number(per_int)/100))/30;
         remain_amt       = Number(remain_amt) + Number(remain_int);  
       }
         
@@ -547,8 +532,6 @@ function checkAmt(){
        $('#inst_amt').val(installement_amt.toFixed(2));
        $('#r_int').val(remain_int.toFixed(2));
        $('#remain_amt').val(remain_amt.toFixed(2));
-       $('#new_amt').val(new_loan_amt.toFixed(2));
-       $('#daily_int').val(new_daily_int.toFixed(2));
     }
   });
 }

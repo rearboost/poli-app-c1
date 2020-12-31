@@ -11,7 +11,7 @@
 	$card_1 = mysqli_num_rows($customer_count); 
 
 	//////////// card 2 /////////////
-	$loan_count = mysqli_query($con, "SELECT DISTINCT(loan_no) FROM loan WHERE l_date = date_sub(curdate(),interval 1 day)");
+	$loan_count = mysqli_query($con, "SELECT loan_no FROM loan");
 	$card_2 = mysqli_num_rows($loan_count);
 
 	//////////// card 3 /////////////

@@ -101,13 +101,7 @@ mysqli_select_db($con,DB_NAME);
                 </div>
               </div>
             </div>
-            <!-- <div class="row">
-              <div class="col-md-6 pr-1">
-                <div class="form-group">
-                  <label  style="color: black;"><b>Remain Interest</b></label><span style="color: black;"> : Rs <?php // echo $data['remaining_int_amt'] ?>
-                </div>
-              </div>
-            </div> -->
+            
             <div class="row">
               <div class="col-md-6 pr-1">
                 <div class="form-group" style="margin-bottom: 0px;">

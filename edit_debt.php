@@ -15,21 +15,18 @@ include("db_config.php");
     if(isset($_POST['update'])) // when click on Update button
     {
 
-        $i_id               = $_POST['i_id'];
-        $li_id              = $_POST['id'];
-        $li_date            = $_POST['li_date'];
-        $installement_amt   = $_POST['i_amt'];
-        $interest_amt       = $_POST['int_amt'];
-        $remaining_amt      = $_POST['remain_amt'];
-        $loan_no            = $_POST['loan_no'];
-        $cust_id            = $_POST['cust_id'];
+        $i_id               = $_POST['i_id1'];
+        $li_date            = $_POST['li_date1'];
+        $amt                = $_POST['amt1'];
+        $installement_amt   = $_POST['i_amt1'];
+        $interest_amt       = $_POST['int_amt1'];
+        $remaining_amt      = $_POST['remain_amt1'];
+        $r_int              = $_POST['r_int1'];
+        $cust_id            = $_POST['cust_id1'];
 
       
-        $edit = mysqli_query($con,"UPDATE loan_installement 
-                                  SET li_date           ='$li_date', 
-                                      installement_amt  ='$installement_amt', 
-                                      interest_amt      ='$interest_amt', 
-                                      remaining_amt     ='$remaining_amt'
+        $edit = mysqli_query($con,"UPDATE loan_installement  
+                                     SET paid     =$amt
                                   WHERE id=$i_id ");
       
         if($edit)
@@ -58,12 +55,12 @@ include("db_config.php");
           <div class="col-md-12">
             <div class="row">
                 <div class="form-group">
-                  <input type="hidden" class="form-control" name = "i_id" value = "<?php echo $data['id'] ?>" >
+                  <input type="hidden" class="form-control" name = "i_id1" value = "<?php echo $data['id'] ?>" >
                 </div>
               <div class="col-md-6 pr-3">
                 <div class="form-group">
                   <label>Customer</label> 
-                  <input type="text" class="form-control" id="cust_id1" name = "cust_id" disabled="" value = "<?php echo $data['cust_id'] ?>">
+                  <input type="text" class="form-control" id="cust_id1" name = "cust_id1" disabled="" value = "<?php echo $data['cust_id'] ?>">
                 </div>
               </div>
             </div>
@@ -71,8 +68,15 @@ include("db_config.php");
               <div class="col-md-6 pr-3">
                 <div class="form-group">
                   <label>Date</label>
-                  <!--input type="text" class="form-control" disabled="" name = "id"-->
-                  <input type="date" class="form-control" id="li_date1" name = "li_date" value = "<?php echo $data['li_date'] ?>">
+                  <input type="date" class="form-control" id="li_date1" name = "li_date1" value = "<?php echo $data['li_date'] ?>" disabled>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 pr-3">
+                <div class="form-group">
+                  <label>Amount</label>
+                  <input type="text" class="form-control checkAmt1" id="amt1" name="amt1" value = "<?php echo $data['paid'] ?>" required>
                 </div>
               </div>
             </div>
@@ -80,13 +84,13 @@ include("db_config.php");
               <div class="col-md-6 pr-3">
                 <div class="form-group">
                   <label>Installment amount</label>
-                  <input type="text" class="form-control checkAmt1" placeholder="LKR" id="inst_amt1" name = "i_amt" value = "<?php echo $data['installement_amt'] ?>" disabled>
+                  <input type="text" class="form-control" placeholder="LKR" id="inst_amt1" name = "i_amt1" value = "<?php echo $data['installement_amt'] ?>" disabled>
                 </div>
               </div>              
               <div class="col-md-6 pr-3">
                 <div class="form-group">
                   <label>Interest amount</label>
-                  <input type="text" class="form-control checkAmt1" placeholder="LKR" id="int_amount1" name = "int_amt" value = "<?php echo $data['interest_amt'] ?>" disabled>
+                  <input type="text" class="form-control" placeholder="LKR" id="int_amount1" name = "int_amt1" value = "<?php echo $data['interest_amt'] ?>" disabled>
                 </div>
               </div>
             </div>
@@ -94,15 +98,14 @@ include("db_config.php");
               <div class="col-md-6 pr-3">
                 <div class="form-group">
                   <label>Remaining amount</label>
-                  <!--input type="text" class="form-control" disabled = ""  name = "remain_amt"-->
-                  <input type="text" class="form-control" id="remain_amt1" name = "remain_amt" value = "<?php echo $data['remaining_amt'] ?>" disabled>
+                  <input type="text" class="form-control" id="remain_amt1" name = "remain_amt1" value = "<?php echo $data['remaining_amt'] ?>" disabled>
+                  <input type="hidden" class="form-control" id="r_int1" name = "r_int1" readonly required>
                 </div>
               </div>
               <div class="col-md-6 pr-3">
                 <div class="form-group">
                   <label>Loan Amount</label>
-                  <!--input type="text" class="form-control" disabled = "" name = "l_amt"-->
-                  <input type="text" class="form-control" id="l_amt" name = "l_amt" disabled = "" value = "<?php echo $data['amount'] ?>">
+                  <input type="text" class="form-control" id="l_amt1" name = "l_amt1" disabled = "" value = "<?php echo $data['amount'] ?>">
                 </div>
               </div>
             </div>                  
@@ -124,102 +127,80 @@ include("db_config.php");
 <script>
 
     // fetch no.of days when select the date
-  $('#li_date1').on('change', function() {
+  // $('#li_date1').on('change', function() {
 
-      var customer_id = $('#cust_id1').val();
+  //     var customer_id = $('#cust_id1').val();
 
-      $.ajax({
-        url: 'remain_amt.php',
-        method:"POST",
-        data:{id:customer_id},
-        success: function (response) {
-          var obj = JSON.parse(response);
-          var pre_date  =  obj.pre_date
-          var now_date  =  $('#li_date1').val();
+  //     $.ajax({
+  //       url: 'remain_amt.php',
+  //       method:"POST",
+  //       data:{id:customer_id},
+  //       success: function (response) {
+  //         var obj = JSON.parse(response);
+  //         var pre_date  =  obj.pre_date
+  //         var now_date  =  $('#li_date1').val();
 
-          const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
-          const firstDate = new Date(pre_date);
-          const secondDate = new Date(now_date);
+  //         const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+  //         const firstDate = new Date(pre_date);
+  //         const secondDate = new Date(now_date);
 
-          const diffDays = Math.round(Math.abs((firstDate - secondDate) / oneDay));
+  //         const diffDays = Math.round(Math.abs((firstDate - secondDate) / oneDay));
 
-          $('#days1').val(diffDays);
-          $('#amt1').prop('disabled', false);
-        }
-      });
-    }); 
+  //         $('#days1').val(diffDays);
+  //         $('#amt1').prop('disabled', false);
+  //       }
+  //     });
+  //   }); 
   /////////////////////////////////////////
 
     ////////////////////  Update the Functions
 
-    $('.checkAmt1').on('keyup',function(){
-        checkAmt1()
-    })
+    // $('.checkAmt1').on('keyup',function(){
+    //     checkAmt1()
+    // })
 
-    function checkAmt1(){
-      var amount = $('#amt1').val();
-      var days   = $('#days1').val();
-      var installement_amt;
-      var interest_amt;
-      var remain_amt;
-      var id =  $('#cust_id1').val();
+    // function checkAmt1(){
+    //   var amount = $('#amt1').val();
+    //   var days   = $('#days1').val();
+    //   var installement_amt;
+    //   var interest_amt;
+    //   var remain_int;
+    //   var remain_amt;
+    //   var id =  $('#cust_id1').val();
 
-      $.ajax({
-        url: 'remain_amt.php',
-        method:"POST",
-        data:{id:id},
-        success: function (response) {
+    //   $.ajax({
+    //     url: 'remain_amt.php',
+    //     method:"POST",
+    //     data:{id:id},
+    //     success: function (response) {
 
-          var obj = JSON.parse(response);
-         // $('#remain_amt').val(obj.remain_amt);
-          var remain_amt      =  obj.remain_amt
-          var daily_interest  =  obj.interest
+    //       var obj = JSON.parse(response);
+    //      // $('#remain_amt').val(obj.remain_amt);
+    //       var remain_amt      =  obj.remain_amt
+    //       var remain_int      =  obj.remain_int
+    //       var loan            =  obj.loan_amt
+    //       var daily_interest  =  obj.interest
 
-          interest_amt = Number(daily_interest) * Number(days);
-          installement_amt = Number(amount) - Number(interest_amt);
-          remain_amt = Number(remain_amt) - (Number(installement_amt)+Number(interest_amt));  
+    //       interest_amt = (Number(daily_interest) * Number(days));
       
-           $('#int_amount1').val(interest_amt.toFixed(2));
-           $('#inst_amt1').val(installement_amt.toFixed(2));
-           $('#remain_amt1').val(remain_amt.toFixed(2));
-        }
-
-      });
-    }
-
-    function checkAmt(){
-
-      var amount = $('#amt').val();
-      var days   = $('#days').val();
-      var installement_amt;
-      var interest_amt;
-      var remain_amt;
-      var id =  $('#custom_id').val();
-
-      $.ajax({
-        url: 'remain_amt.php',
-        method:"POST",
-        data:{id:id},
-        success: function (response) {
-
-          var obj = JSON.parse(response);
-         // $('#remain_amt').val(obj.remain_amt);
-          var remain_amt      =  obj.remain_amt
-          var daily_interest  =  obj.interest
-
-          interest_amt = Number(daily_interest) * Number(days);
-          installement_amt = Number(amount) - Number(interest_amt);
-          remain_amt = Number(remain_amt) - (Number(installement_amt)+Number(interest_amt));  
+    //       if(amount>=interest_amt){
+    //         installement_amt = Number(amount) - Number(interest_amt);
+    //         remain_int       = Number(0.00);
+    //         remain_amt       = Number(remain_amt) - Number(installement_amt);  
+    //       }else{
+    //         installement_amt = Number(0.00);
+    //         remain_int       = Number(interest_amt) - Number(amount);
+    //         remain_amt       = Number(remain_amt) + Number(remain_int);  
+    //       } 
       
-           $('#int_amount').val(interest_amt.toFixed(2));
-           $('#inst_amt').val(installement_amt.toFixed(2));
-           $('#remain_amt').val(remain_amt.toFixed(2));
-        }
+    //        $('#int_amount1').val(interest_amt.toFixed(2));
+    //        $('#inst_amt1').val(installement_amt.toFixed(2));
+    //        $('#remain_amt1').val(remain_amt.toFixed(2));
+    //        $('#r_int1').val(remain_int.toFixed(2));
+    //     }
 
-      });
-    }
-
-    ////////////////////  
+    //   });
+    // }
 
      $(function () {
 
