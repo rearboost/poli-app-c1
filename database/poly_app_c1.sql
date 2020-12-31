@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 29, 2020 at 05:59 PM
+-- Generation Time: Dec 31, 2020 at 07:40 PM
 -- Server version: 10.1.10-MariaDB
 -- PHP Version: 5.5.30
 
@@ -67,7 +67,8 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`cust_id`, `type`, `name`, `address`, `vehicle_no`) VALUES
-('D0001', 'Daily', 'Hasith Lakmal', 'panadura', 'WP1024');
+('D0001', 'Daily', 'Hasith Lakmal', 'panadura', 'WP1024'),
+('D0002', 'Daily', 'anne fernando', 'panadura', 'WP1056');
 
 -- --------------------------------------------------------
 
@@ -80,7 +81,7 @@ CREATE TABLE `loan` (
   `l_date` date NOT NULL,
   `amount` double(10,2) NOT NULL,
   `interest` int(5) NOT NULL,
-  `value_of_interest` double NOT NULL,
+  `value_of_interest` double(10,2) NOT NULL,
   `cust_id` varchar(10) NOT NULL,
   `l_status` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -90,7 +91,8 @@ CREATE TABLE `loan` (
 --
 
 INSERT INTO `loan` (`loan_no`, `l_date`, `amount`, `interest`, `value_of_interest`, `cust_id`, `l_status`) VALUES
-(1, '2020-12-01', 100000.00, 4, 133.33, 'D0001', 1);
+(1, '2020-12-01', 100000.00, 4, 133.34, 'D0001', 1),
+(2, '2020-11-30', 40000.00, 5, 66.67, 'D0002', 1);
 
 -- --------------------------------------------------------
 
@@ -104,10 +106,18 @@ CREATE TABLE `loan_installement` (
   `paid` double(10,2) NOT NULL DEFAULT '0.00',
   `installement_amt` double(10,2) NOT NULL,
   `interest_amt` double(10,2) NOT NULL,
-  `remaining_int_amt` decimal(10,0) NOT NULL DEFAULT '0',
+  `remaining_int_amt` decimal(10,2) NOT NULL DEFAULT '0.00',
   `remaining_amt` double(10,2) NOT NULL,
   `loan_no` int(7) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `loan_installement`
+--
+
+INSERT INTO `loan_installement` (`id`, `li_date`, `paid`, `installement_amt`, `interest_amt`, `remaining_int_amt`, `remaining_amt`, `loan_no`) VALUES
+(1, '2020-12-16', 550.00, 0.00, 1066.72, '567.00', 40566.72, 2),
+(2, '2020-12-16', 1000.00, 0.00, 2000.10, '1000.10', 101000.10, 1);
 
 -- --------------------------------------------------------
 
@@ -129,7 +139,7 @@ CREATE TABLE `summary` (
 --
 
 INSERT INTO `summary` (`id`, `year`, `month`, `loanAMT`, `debtAMT`, `createDate`) VALUES
-(1, '2020', '12', '100000.00', '0.00', '2020-12-29'),
+(1, '2020', '12', '140000.00', '0.00', '2020-12-29'),
 (2, '2020', '01', '0.00', '0.00', '2020-12-29'),
 (3, '2020', '02', '0.00', '0.00', '2020-12-29'),
 (4, '2020', '03', '0.00', '0.00', '2020-12-29'),
@@ -215,12 +225,12 @@ ALTER TABLE `cheque`
 -- AUTO_INCREMENT for table `loan`
 --
 ALTER TABLE `loan`
-  MODIFY `loan_no` int(7) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `loan_no` int(7) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `loan_installement`
 --
 ALTER TABLE `loan_installement`
-  MODIFY `id` int(7) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(7) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `summary`
 --
