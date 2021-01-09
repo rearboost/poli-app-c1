@@ -288,6 +288,8 @@ mysqli_select_db($con,DB_NAME);
                       <th>                      Loan</th>
                       <th>                      Date</th>
                       <th class="text-right">   Loan Amt</th>
+                      <th class="text-right">   Days</th>
+                      <th class="text-right">   Remaining Amt</th>
                       <th class="text-right">   Interest(%)</th>                   
                       <th class="text-right">   Daily Interest</th>
                       <th class="text-center">  Status</th>
@@ -303,24 +305,61 @@ mysqli_select_db($con,DB_NAME);
                  
                       if($numRows > 0) {
                         while($row = mysqli_fetch_assoc($sql)) {
+                          $loan_no  = $row['loan_no'];
+                          $l_date   = strtotime($row['l_date']);
+                          $loan_amt = $row['amount'];
+                          $interest = $row['value_of_interest'];
+
+
+
+                        $check = mysqli_query($con,"SELECT * FROM (SELECT * FROM loan_installement WHERE loan_installement.loan_no = '$loan_no') V ORDER BY V.id DESC LIMIT 1;");
+
+                        $data1 = mysqli_fetch_array($check); 
+
+                        $li_date         = strtotime($data1['li_date']);
+                        $remaining_amt   = $data1['remaining_amt'];
+                        $now_date        = time();
+
+                        if(empty($remaining_amt))
+                        {
+                           $pre_date   = $l_date;  
+                           $remain_amt = $loan_amt;
+                           $Days = round(($now_date-$pre_date) / (60 * 60 * 24))-1;
+                           $remain_amount = ($remain_amt + ($interest*$Days));
+                        }
+                        else if($remaining_amt==0){
+                           $Days = 0;
+                           $remain_amount = 0.00;
+                        }
+                        else
+                        {
+                           $pre_date   = $li_date;
+                           $remain_amt = $remaining_amt;
+                           $Days = round(($now_date-$pre_date) / (60 * 60 * 24))-1;
+                           $remain_amount = ($remain_amt + ($interest*$Days));
+                        }
                           ?>
-                          <tr>
-                            <td>                      <?php echo $row['loan_no'] ?>  </td>
-                            <td>                      <?php echo $row['l_date'] ?>   </td>
-                            <td class="text-right">   <?php echo $row['amount'] ?>   </td>
-                            <td class="text-right">   <?php echo $row['interest'] ?> </td>
-                            <td class="text-right">   <?php echo $row['value_of_interest'] ?> </td>
-                            <td class="text-center">  <?php echo $row['l_status'] ?> </td>
-                            <td>                      <?php echo $row['cust_id'] ?>  </td>
-                            <td class="text-center">  
-                              <a href="#" onclick="editView(<?php echo $row['loan_no']; ?>)" name="edit">
-                              <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                            </td>
-                            <td class="text-center">  
-                              <a href="#" onclick="confirmation('event','<?php echo $row['loan_no']; ?>')"  name="delete">
-                              <i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                            </td>
-                          </tr>
+                    <tr>
+                      <td>                   <?php echo $row['loan_no']?>  </td>
+                      <td>                   <?php echo $row['l_date']?>   </td>
+                      <td class="text-right"><?php echo number_format($row['amount'],2)?>  </td>
+                      <td class="text-right"><?php echo $Days; ?>   </td>
+                      <td class="text-right"><?php echo number_format($remain_amount,2);?></td>
+                      <td class="text-right"><?php echo $row['interest']?> </td>
+                      <td class="text-right"><?php echo number_format($row['value_of_interest'],2)?> </td>
+                      <td class="text-center"><?php echo $row['l_status'] ?> </td>
+                      <td>                    <?php echo $row['cust_id'] ?>  </td>
+
+                      <td class="text-center">  
+                        <a href="#" onclick="editView(<?php echo $row['loan_no']; ?>)" name="edit">
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                      </td>
+
+                      <td class="text-center">  
+                        <a href="#" onclick="confirmation('event','<?php echo $row['loan_no']; ?>')"  name="delete">
+                        <i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                      </td>
+                    </tr>
                     </tbody>
                            <?php
                         }
@@ -394,9 +433,7 @@ mysqli_select_db($con,DB_NAME);
       });
     });  
 
-  ////////////////////   
-
-  /////////////////////////////////////// Table Search 
+  /////////////////////////////////////// Table Search ///////////////////////////
     $(document).ready(function(){
       $("#myInput").on("keyup", function() {
         var value = $(this).val().toLowerCase();

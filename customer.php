@@ -171,6 +171,14 @@ mysqli_select_db($con,DB_NAME);
                             </div>
                           </div>
                           </div>
+                          <div class="row">                  
+                          <div class="col-md-7 pr-1">
+                            <div class="form-group">
+                              <label>Contact No</label>
+                              <input type="text" class="form-control" placeholder="Mobile / Land" name = "contact" required>
+                            </div>
+                          </div>
+                          </div>
                           <div class="row">
                           <div class="update ml-auto mr-auto">
                             <input type="hidden" name ="submit" value="submit"/>
@@ -184,8 +192,9 @@ mysqli_select_db($con,DB_NAME);
                                   $name     = $_POST['name'];
                                   $address  = $_POST['address'];
                                   $reg_no   = $_POST['reg_no'];
+                                  $contact   = $_POST['contact'];
 
-                                $insert1 = "INSERT INTO customer (cust_id,type,name,address,vehicle_no) VALUES ('$id','$type','$name','$address','$reg_no')";
+                                $insert1 = "INSERT INTO customer (cust_id,type,name,address,vehicle_no,contact) VALUES ('$id','$type','$name','$address','$reg_no','$contact')";
                                 mysqli_query($con,$insert1);
                                 }
                             ?>
@@ -206,6 +215,7 @@ mysqli_select_db($con,DB_NAME);
                       <th>                    Name</th>
                       <th>                    Address</th>
                       <th>                    Vehicle No</th>
+                      <th>                    Contact</th>
                       <th class="text-center"> Edit 				</th>
                       <th class="text-center"> Delete 			</th>
                     </thead>
@@ -224,6 +234,7 @@ mysqli_select_db($con,DB_NAME);
                             <td>                      <?php echo $row['name']?>                </td>
                             <td>                      <?php echo $row['address']  ?>           </td>
                             <td>                      <?php echo $row['vehicle_no']  ?>        </td>
+                            <td>                      <?php echo $row['contact']  ?>           </td>
                             <td class="text-center">  
                              <a href="#" onclick="editView('<?php echo $row['cust_id']; ?>')" name="edit">
                               <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>

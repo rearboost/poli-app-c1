@@ -14,16 +14,18 @@
 
     if(isset($_POST['update'])) // when click on Update button
     {
-        $cust_id   = $_POST['c_id1'];
-        $type      = $_POST['type1'];
-        $name      = $_POST['name1'];
-        $address   = $_POST['address1'];
+        $cust_id     = $_POST['c_id1'];
+        $type        = $_POST['type1'];
+        $name        = $_POST['name1'];
+        $address     = $_POST['address1'];
         $vehicle_no  = $_POST['reg_no1'];
+        $contact     = $_POST['contact1'];
       
         $edit = mysqli_query($con,"UPDATE customer 
                                           SET name  ='$name', 
                                               address ='$address', 
-                                              vehicle_no ='$vehicle_no' 
+                                              vehicle_no ='$vehicle_no', 
+                                              contact ='$contact' 
                                           WHERE cust_id='$cust_id'");
       
         if($edit)
@@ -86,6 +88,14 @@
                 <div class="form-group">
                   <label>Vehicle Reg_no</label>
                   <input type="text" class="form-control" name = "reg_no1" value="<?php echo $data['vehicle_no']?>">
+                </div>
+              </div>
+              </div>
+              <div class="row">                  
+              <div class="col-md-7 pr-1">
+                <div class="form-group">
+                  <label>Contact No</label>
+                  <input type="text" class="form-control" placeholder="Mobile / Land" name = "contact1" value="<?php echo $data['contact']?>" required>
                 </div>
               </div>
               </div>
