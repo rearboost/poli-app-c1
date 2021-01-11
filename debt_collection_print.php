@@ -142,7 +142,7 @@ mysqli_select_db($con,DB_NAME);
 
   ///////////////////////////////////////  Print  
   $(document).ready(function(){
-     // setTimeout(function(){ window.print(); }, 2000);
+      setTimeout(function(){ window.print(); }, 2000);
      // setTimeout(window.close, 3000);
   });
   ///////////////////////////////////////////
