@@ -324,7 +324,7 @@ mysqli_select_db($con,DB_NAME);
                         {
                            $pre_date   = $l_date;  
                            $remain_amt = $loan_amt;
-                           $Days = round(($now_date-$pre_date) / (60 * 60 * 24))-1;
+                           $Days = round(($now_date-$pre_date) / (60 * 60 * 24));
                            $remain_amount = ($remain_amt + ($interest*$Days));
                         }
                         else if($remaining_amt==0){
@@ -335,7 +335,7 @@ mysqli_select_db($con,DB_NAME);
                         {
                            $pre_date   = $li_date;
                            $remain_amt = $remaining_amt;
-                           $Days = round(($now_date-$pre_date) / (60 * 60 * 24))-1;
+                           $Days = round(($now_date-$pre_date) / (60 * 60 * 24));
                            $remain_amount = ($remain_amt + ($interest*$Days));
                         }
                           ?>
